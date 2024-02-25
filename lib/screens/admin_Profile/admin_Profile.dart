@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../../Announchment/data/custom_user.dart';
 import '../../components/profile_image_picker.dart';
 import '../../constants.dart';
@@ -15,25 +16,50 @@ class AdminProfileScreen extends StatefulWidget {
 
 class _AdminProfileScreenState extends State<AdminProfileScreen> {
   Map<String, dynamic> userData = {};
+  double behaviourRating = 0.0;
+  double skillRating = 0.0;
+  double lectureRating = 0.0;
+  double markingRating = 0.0;
 
   @override
   void initState() {
     super.initState();
-    fetchUserData(); // Fetch user data when the screen initializes
+    fetchUserData();
+    fetchRatings();
   }
 
   // Function to fetch user data from Firebase
   Future<void> fetchUserData() async {
     try {
-      DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
-          .collection('users') // Update with your collection name
-          .doc(widget.user?.uid) // Use the user's UID
-          .get();
+      DocumentSnapshot<Map<String, dynamic>> snapshot =
+          await FirebaseFirestore.instance
+              .collection('users') // Update with your collection name
+              .doc(widget.user?.uid) // Use the user's UID
+              .get();
       setState(() {
         userData = snapshot.data() ?? {}; // Update userData with fetched data
       });
     } catch (error) {
       print('Error fetching user data: $error');
+    }
+  }
+
+  void fetchRatings() async {
+    try {
+      // Fetch the ratings for the specific faculty member
+      DocumentSnapshot ratingSnapshot = await FirebaseFirestore.instance
+          .collection('faculty_ratings')
+          .doc(widget.user?.uid)
+          .get();
+      setState(() {
+        // Update the state variables with the fetched ratings
+        behaviourRating = ratingSnapshot['behaviourRating'] ?? 0.0;
+        skillRating = ratingSnapshot['skillRating'] ?? 0.0;
+        lectureRating = ratingSnapshot['lectureRating'] ?? 0.0;
+        markingRating = ratingSnapshot['markingRating'] ?? 0.0;
+      });
+    } catch (error) {
+      print('Failed to fetch ratings: $error');
     }
   }
 
@@ -45,9 +71,17 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Icon(Icons.arrow_back_ios,color: kTextWhiteColor,),
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: kTextWhiteColor,
+          ),
         ),
-        title: const Text('Faculty Profile'),
+        title: const Text(
+          'Faculty Profile',
+          style: TextStyle(
+            color: kTextWhiteColor,
+          ),
+        ),
         actions: [
           InkWell(
             onTap: () {
@@ -71,88 +105,154 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
       ),
       body: Container(
         color: kOtherColor,
-        child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              height: 150,
-              decoration: const BoxDecoration(
-                color: kPrimaryColor,
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(kDefaultPadding * 2),
-                  bottomLeft: Radius.circular(kDefaultPadding * 2),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                width: double.infinity,
+                height: 220,
+                decoration: const BoxDecoration(
+                  color: kPrimaryColor,
+                  borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(kDefaultPadding * 2),
+                    bottomLeft: Radius.circular(kDefaultPadding * 2),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(width: 10,),
+                        ProfileImagePicker(onPress: () {}),
+                        // Update ProfileImagePicker as needed
+                        kWidthSizeBox,
+                        // User Details
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '${userData["fullName"] ?? ""}',
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            Text('ID: ${userData["id"] ?? ""}',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(
+                                      fontSize: 14.0,
+                                    )),
+                          ],
+                        ),
+                      ],
+                    ),
+                    sizeBox,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _buildRatingColumn("Behaviour", behaviourRating),
+                        _buildRatingColumn("Skills", skillRating),
+                        _buildRatingColumn("Lecture", lectureRating),
+                        _buildRatingColumn("Marking", markingRating),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              sizeBox,
+              //University Details
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  ProfileImagePicker(onPress: (){}), // Update ProfileImagePicker as needed
-                  kWidthSizeBox,
-                  // User Details
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('${userData["fullName"] ?? ""}',
-                          style: Theme.of(context).textTheme.titleMedium,),
-                      Text('ID: ${userData["id"] ?? ""}',
-                          style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                            fontSize: 14.0,
-                          )),
-                    ],
+                  ProfileDetailRow(
+                    title: 'POST: ',
+                    value: '${userData["post"]}',
+                  ),
+                  ProfileDetailRow(
+                    title: 'ID Number',
+                    value: '${userData["id"]}',
                   ),
                 ],
               ),
-            ),
-            sizeBox,
-            //University Details
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ProfileDetailRow(
-                  title: 'POST: ',
-                  value: '${userData["post"]}',
-                ),
-                ProfileDetailRow(
-                  title: 'ID Number',
-                  value: '${userData["id"]}',
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ProfileDetailRow(
-                  title: 'Date of Joined',
-                  value: '${userData["join"]}',
-                ),
-                ProfileDetailRow(
-                  title: 'Highest Degree',
-                  value: '${userData["degree"]}',
-                ),
-              ],
-            ),
-            //Parents Details
-            ProfileDataColumn(
-              title: 'Email',
-              value: '${userData["email"]}',
-            ),
-            //Email and Phone Number
-            ProfileDataColumn(
-              title: 'Mobile Number',
-              value: '${userData["phone"]}',
-            ),
-            ProfileDataColumn(
-              title: 'Password',
-              value: '${userData["pass"]}',
-            ),
-          ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ProfileDetailRow(
+                    title: 'Date of Joined',
+                    value: '${userData["join"]}',
+                  ),
+                  ProfileDetailRow(
+                    title: 'Highest Degree',
+                    value: '${userData["degree"]}',
+                  ),
+                ],
+              ),
+              //Parents Details
+              ProfileDataColumn(
+                title: 'Email',
+                value: '${userData["email"]}',
+              ),
+              //Email and Phone Number
+              ProfileDataColumn(
+                title: 'Mobile Number',
+                value: '${userData["phone"]}',
+              ),
+              ProfileDataColumn(
+                title: 'Password',
+                value: '${userData["pass"]}',
+              ),
+              ProfileDataColumn(
+                title: 'Father Name',
+                value: '${userData["fName"]}',
+              ),
+              ProfileDataColumn(
+                title: 'Mother Name',
+                value: '${userData["mName"]}',
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
+Widget _buildRatingColumn(String title, double rating) {
+  Color color = _getColorFromRating(rating);
+  return Column(
+    children: [
+      CircularPercentIndicator(
+        radius: 30.0,
+        lineWidth: 5.0,
+        percent: rating,
+        center: Text(
+          "${(rating * 100).toInt()}%",
+          style: TextStyle(fontSize: 14),
+        ),
+        progressColor: color,
+        backgroundColor: Colors.grey,
+      ),
+      kHalfSizeBox,
+      Text(
+        title,
+        style: TextStyle(fontSize: 16),
+      ),
+    ],
+  );
+}
+
+Color _getColorFromRating(double rating) {
+  if (rating >= 0.8) {
+    return Colors.green;
+  } else if (rating >= 0.6) {
+    return Colors.yellow;
+  } else if (rating >= 0.4) {
+    return Colors.orange;
+  } else {
+    return Colors.red;
+  }
+}
 
 class ProfileDetailRow extends StatelessWidget {
   const ProfileDetailRow({super.key, required this.title, required this.value});
@@ -178,19 +278,19 @@ class ProfileDetailRow extends StatelessWidget {
               Text(
                 title,
                 style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                  color: kTextLightColor,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 15.0,
-                ),
+                      color: kTextLightColor,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15.0,
+                    ),
               ),
               kHalfSizeBox,
               Text(
                 value,
                 style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                  color: kTextBlackColor,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 15.0,
-                ),
+                      color: kTextBlackColor,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15.0,
+                    ),
               ),
               kHalfSizeBox,
               SizedBox(
@@ -228,18 +328,18 @@ class ProfileDataColumn extends StatelessWidget {
               Text(
                 title,
                 style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                  color: kTextLightColor,
-                  fontSize: 15.0,
-                ),
+                      color: kTextLightColor,
+                      fontSize: 15.0,
+                    ),
               ),
               kHalfSizeBox,
               Text(
                 value,
                 style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                  color: kTextBlackColor,
-                  fontSize: 15.0,
-                  fontWeight: FontWeight.w600,
-                ),
+                      color: kTextBlackColor,
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.w600,
+                    ),
               ),
               kHalfSizeBox,
               SizedBox(

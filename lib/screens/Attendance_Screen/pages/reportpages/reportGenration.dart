@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:student_management_system/constants.dart';
 import 'package:student_management_system/screens/Attendance_Screen/pages/reportpages/reportPdfDownload.dart';
-import 'package:student_management_system/screens/admin_login_screen/admin_home_screen/admin_home_screen.dart';
-
 import '../../utils/names.dart';
 import '../../widgets/dropDownWidget.dart';
 
@@ -13,37 +12,53 @@ class ReportGeneration extends StatefulWidget {
 }
 
 class _ReportGenerationState extends State<ReportGeneration> {
+  late DateTime selectedFromDate;
+  late DateTime selectedToDate;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedFromDate = DateTime.now();
+    selectedToDate = DateTime.now();
+  }
+
+  Future<void> _selectDate(BuildContext context, bool isFromDate) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: isFromDate ? selectedFromDate : selectedToDate,
+      firstDate: DateTime(2015, 8),
+      lastDate: DateTime(2101),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Colors.blue, // header background color
+              onPrimary: Colors.white, // header text color
+              onSurface: Colors.black, // body text color
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                primary: Colors.blue, // button text color
+              ),
+            ),
+          ),
+          child: child ?? Container(),
+        );
+      },
+    );
+    if (picked != null) {
+      setState(() {
+        if (isFromDate) {
+          selectedFromDate = picked;
+        } else {
+          selectedToDate = picked;
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-     DateTime selectedDate = DateTime.now();
-     DateTime selectedDate2 = DateTime.now();
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
-    if (picked != null && picked != selectedDate)
-      setState(() {
-        selectedDate = picked;
-      });
-  }
-  Future<void> _selectDate2(BuildContext context) async {
-    final DateTime? picked2 = await showDatePicker(
-        context: context,
-        initialDate: selectedDate2,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
-    if (picked2 != null && picked2 != selectedDate2)
-      setState(() {
-        selectedDate2 = picked2;
-      });
-  }
-    // String yeardropdownValue = CollegeYear[0];
-    // String batchdropdownValue = Batch[0];
-    // String subjectdropdownValue = Subject[0];
-    // String facultiesdropdownValue = Faculties[0];
     return Scaffold(
       appBar: AppBar(
         leading: TextButton(
@@ -55,9 +70,14 @@ class _ReportGenerationState extends State<ReportGeneration> {
             color: Colors.white,
           ),
         ),
-        title: Center(child: Text("Report",style: TextStyle(
-          color: Colors.white,
-        ),)),
+        title: Center(
+          child: Text(
+            "Report",
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -67,81 +87,79 @@ class _ReportGenerationState extends State<ReportGeneration> {
               SizedBox(
                 height: 20,
               ),
-              dropdown(DropdownValue:yeardropdownValue, sTring:CollegeYear,Hint: "Year"),
+              dropdown(
+                  DropdownValue: yeardropdownValue,
+                  sTring: CollegeYear,
+                  Hint: "Year"),
               SizedBox(
                 height: 20,
               ),
-              dropdown(DropdownValue:semesterdropdownValue, sTring:Semester,Hint: "Semester"),
+              dropdown(
+                  DropdownValue: semesterdropdownValue,
+                  sTring: Semester,
+                  Hint: "Semester"),
               SizedBox(
                 height: 20,
               ),
-              dropdown(DropdownValue:batchdropdownValue, sTring:Batch, Hint:"Batch"),
+              dropdown(
+                  DropdownValue: batchdropdownValue,
+                  sTring: Batch,
+                  Hint: "Batch"),
               SizedBox(
                 height: 20,
               ),
-              dropdown(DropdownValue:subjectdropdownValue, sTring:Subject, Hint:"Subject"),
-              // SizedBox(
-              //   height: 20,
-              // ),
-              // dropdownButton(facultiesdropdownValue, sTring:Faculties, "Faculty"),
-              SizedBox(height: 40,),
-              // Container(
-              //   height: 200,
-              //   width: 200,
-              //   child: CupertinoDatePicker(
-              //       mode: CupertinoDatePickerMode.date,
-              //       initialDateTime: DateTime(1969, 1, 1),
-              //       onDateTimeChanged: (DateTime newDateTime) {
-              //         // Do something
-              //       },
-              //     ),
-              // ),
-              // date picker
+              dropdown(
+                  DropdownValue: subjectdropdownValue,
+                  sTring: Subject,
+                  Hint: "Subject"),
+              SizedBox(height: 40),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-            SizedBox(width: 30,),
                   Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-                  Text("From :"),
-                  SizedBox(height: 10,),
-                  Text("${selectedDate.toLocal()}".split(' ')[0]),
-                  SizedBox(height: 20.0,),
-                  // ignore: deprecated_member_use
-                  ElevatedButton(
-                    onPressed: () => _selectDate(context),
-                    child: const Text('Select date',style: TextStyle(color: Colors.white),),
+                    children: <Widget>[
+                      Text("From :",style: TextStyle(fontSize: 20),),
+                      SizedBox(height: 10),
+                      Text("${selectedFromDate.toLocal()}".split(' ')[0],style: TextStyle(fontSize: 20),),
+                      SizedBox(height: 20.0),
+                      ElevatedButton(
+                        onPressed: () => _selectDate(context, true),
+                        child: const Text(
+                          'Select date',
+                          style: TextStyle(color: kTextBlackColor),
+                        ),
+                      ),
+                    ],
                   ),
-            ],),
-            SizedBox(width: 50,),
                   Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-                  Text("To :"),
-                  SizedBox(height: 10,),
-                  Text("${selectedDate2.toLocal()}".split(' ')[0]),
-                  SizedBox(height: 20.0,),
-                  // ignore: deprecated_member_use
-                  ElevatedButton(
-                    onPressed: () => _selectDate2(context),
-                    child: const Text('Select date',style: TextStyle(color: Colors.white),),
+                    children: <Widget>[
+                      Text("To :",style: TextStyle(fontSize: 20),),
+                      SizedBox(height: 10),
+                      Text("${selectedToDate.toLocal()}".split(' ')[0],style: TextStyle(fontSize: 20),),
+                      SizedBox(height: 20.0),
+                      ElevatedButton(
+                        onPressed: () => _selectDate(context, false),
+                        child: const Text(
+                          'Select date',
+                          style: TextStyle(color: kTextBlackColor),
+                        ),
+                      ),
+                    ],
                   ),
-            ],),
-            // SizedBox(width: 20,),
                 ],
               ),
-              SizedBox(height: 40,),
+              SizedBox(height: 40),
               ElevatedButton(
-                onPressed: (){
+                onPressed: () {
                   Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => ReportPdfDownloadPage()),
-        
-                  );}, child: Text("Generate Report"),
-                style: ElevatedButton.styleFrom(
-                  fixedSize: Size(300, 40)
-                ),
+                    MaterialPageRoute(
+                      builder: (context) => ReportPdfDownloadPage(),
+                    ),
+                  );
+                },
+                child: Text("Generate Report"),
+                style: ElevatedButton.styleFrom(fixedSize: Size(300, 40)),
               ),
-            
             ],
           ),
         ),

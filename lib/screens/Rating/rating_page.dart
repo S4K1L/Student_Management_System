@@ -22,7 +22,7 @@ class _RatingPageState extends State<RatingPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kTextWhiteColor,
-        title: Text('Make your Rating',style: TextStyle(fontSize: 25,color: kPrimaryColor),),
+        title: const Text('Make your Rating',style: TextStyle(fontSize: 25,color: kPrimaryColor),),
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16),
@@ -45,42 +45,44 @@ class _RatingPageState extends State<RatingPage> {
           ),
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          RatingOption(
-              title: 'Behaviour',
-              rating: behaviourRating,
-              onChanged: (value) {
-                setState(() {
-                  behaviourRating = value;
-                });
-              }),
-          RatingOption(
-              title: 'Skill',
-              rating: skillRating,
-              onChanged: (value) {
-                setState(() {
-                  skillRating = value;
-                });
-              }),
-          RatingOption(
-              title: 'Lecture',
-              rating: lectureRating,
-              onChanged: (value) {
-                setState(() {
-                  lectureRating = value;
-                });
-              }),
-          RatingOption(
-              title: 'Marking',
-              rating: markingRating,
-              onChanged: (value) {
-                setState(() {
-                  markingRating = value;
-                });
-              }),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            RatingOption(
+                title: 'Behaviour',
+                rating: behaviourRating,
+                onChanged: (value) {
+                  setState(() {
+                    behaviourRating = value;
+                  });
+                }),
+            RatingOption(
+                title: 'Skill',
+                rating: skillRating,
+                onChanged: (value) {
+                  setState(() {
+                    skillRating = value;
+                  });
+                }),
+            RatingOption(
+                title: 'Lecture',
+                rating: lectureRating,
+                onChanged: (value) {
+                  setState(() {
+                    lectureRating = value;
+                  });
+                }),
+            RatingOption(
+                title: 'Marking',
+                rating: markingRating,
+                onChanged: (value) {
+                  setState(() {
+                    markingRating = value;
+                  });
+                }),
+          ],
+        ),
       ),
     );
   }

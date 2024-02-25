@@ -25,58 +25,33 @@ class FacultyHomeScreen extends StatefulWidget {
 }
 
 class _FacultyHomeScreenState extends State<FacultyHomeScreen> {
-  double behaviourRating = 0.0;
-  double skillRating = 0.0;
-  double lectureRating = 0.0;
-  double markingRating = 0.0;
+
 
   @override
   void initState() {
     super.initState();
-    // Fetch ratings from Firestore
-    fetchRatings();
   }
 
-  void fetchRatings() async {
-    try {
-      final user = Provider.of<CustomUser?>(context);
-      // Use the faculty UID as the document ID
-      DocumentSnapshot ratingSnapshot = await FirebaseFirestore.instance
-          .collection('faculty_ratings')
-          .doc(user!.uid) // Assuming user.uid is the faculty UID
-          .get();
-      setState(() {
-        // Update the state variables with the fetched ratings
-        behaviourRating = ratingSnapshot['behaviourRating'] ?? 0.0;
-        skillRating = ratingSnapshot['skillRating'] ?? 0.0;
-        lectureRating = ratingSnapshot['lectureRating'] ?? 0.0;
-        markingRating = ratingSnapshot['markingRating'] ?? 0.0;
-      });
-    } catch (error) {
-      print('Failed to fetch ratings: $error');
-    }
-  }
+
+
 
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CustomUser?>(context);
     var account = getAccount(user!.uid);
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            _buildProfileSection(user),
-            _buildRatingsSection(),
-            _buildExpandedSection(account),
-          ],
-        ),
+      body: Column(
+        children: [
+          _buildProfileSection(user),
+          _buildExpandedSection(account),
+        ],
       ),
     );
   }
   Widget _buildProfileSection(CustomUser user) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height / 4.5,
+      height: MediaQuery.of(context).size.height / 3.5,
       padding: EdgeInsets.all(kDefaultPadding),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -108,46 +83,6 @@ class _FacultyHomeScreenState extends State<FacultyHomeScreen> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildRatingsSection() {
-    return Container(
-      padding: const EdgeInsets.all(10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          _buildRatingColumn("Behaviour", behaviourRating),
-          SizedBox(width: 10),
-          _buildRatingColumn("Skill", skillRating),
-          SizedBox(width: 10),
-          _buildRatingColumn("Lecture", lectureRating),
-          SizedBox(width: 10),
-          _buildRatingColumn("Marking", markingRating),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildRatingColumn(String title, double rating) {
-    return Column(
-      children: [
-        CircularPercentIndicator(
-          radius: 30.0,
-          lineWidth: 5.0,
-          percent: rating,
-          center: Text(
-            "${(rating * 100).toInt()}%",
-            style: TextStyle(fontSize: 20),
-          ),
-          progressColor: Colors.red,
-        ),
-        SizedBox(height: 5),
-        Text(
-          title,
-          style: TextStyle(fontSize: 15),
-        ),
-      ],
     );
   }
 
