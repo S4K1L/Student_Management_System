@@ -22,16 +22,16 @@ import 'Credit_screen/credit_screen.dart';
 import 'Exam_Screen/exam_routine.dart';
 import 'widgets/student_data.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
+class StudentHomeScreen extends StatefulWidget {
+  const StudentHomeScreen({super.key});
   static String routeName = 'HomeScreen';
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<StudentHomeScreen> createState() => _StudentHomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _StudentHomeScreenState extends State<StudentHomeScreen> {
+  bool _isLoggedOut = false;
 
   @override
   Widget build(BuildContext context) {
@@ -39,200 +39,192 @@ class _HomeScreenState extends State<HomeScreen> {
     final user = Provider.of<CustomUser?>(context);
     var account = getAccount(user!.uid);
 
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 3,
-              padding: const EdgeInsets.all(kDefaultPadding),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                       Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          StudentName(),
-                          kHalfSizeBox,
-                          StudentClass(),
-                          kHalfSizeBox,
-                          StudentYear(),
-                        ],
-                      ),
-                      kHalfSizeBox,
-                      ProfileImagePicker(
-                        onPress: () {
-                          Navigator.pushNamed(context, MyProfileScreen.routeName);
-                        },
-                      ),
-                    ],
-                  ),
-                  sizeBox,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      StudentDataCard(
-                        title: 'Attendance',
-                        value: '92.06%',
-                        onPress: () {
-                          //goto Attendance Screen
-                        },
-                      ),
-                      StudentDataCard(
-                        title: 'Fees Due',
-                        value: '600\$',
-                        onPress: () {
-                          //goto fees screen
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>  const FeeScreen(),
-                            ),
-                          );
-                        },
-                      ),
-                      StudentDataCard(
-                        title: 'Credit',
-                        value: '15.5',
-                        onPress: () {
-                          //goto fees screen
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>  const CreditScreen(),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+    return WillPopScope(
+      onWillPop: () async {
+        if (!_isLoggedOut) {
+          // If user is not logged out, log them out and prevent default back button behavior
+          setState(() {
+            _isLoggedOut = true;
+          });
+          // Add a delay to mimic a loading screen
+          //await Future.delayed(Duration(seconds: 1));
+          AuthService().logout();
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>  const LoginScreen(),
             ),
-            Expanded(
-              child: Container(
-                color: Colors.transparent,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: kOtherColor,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(kDefaultPadding * 3),
-                      topRight: Radius.circular(kDefaultPadding * 3),
+          );
+          return false; // Prevent default back button behavior
+        } else {
+          return true;
+        }
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: Column(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height / 3,
+                padding: const EdgeInsets.all(kDefaultPadding),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                         Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            StudentName(),
+                            kHalfSizeBox,
+                            StudentClass(),
+                            kHalfSizeBox,
+                            StudentYear(),
+                          ],
+                        ),
+                        kHalfSizeBox,
+                        ProfileImagePicker(
+                          onPress: () {
+                            Navigator.of(context).push(UniquePageRoute(builder: (_) => MyProfileScreen()));
+                          },
+                        ),
+                      ],
                     ),
-                  ),
-                  child: ListView(
-                    physics: const BouncingScrollPhysics(),
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          HomeCard(
-                            onPress: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>  const WallTab(),
-                                ),
-                              );
-                            },
-                            icon: 'assets/icons/quiz.svg',
-                            title: 'Notice',
-                          ),
-                          HomeCard(
-                            onPress: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>   const JoinClass(),
-                                ),
-                              );
-                            },
-                            icon: 'assets/icons/assignment.svg',
-                            title: 'Add Courses',
-                          ),
-                        ],
+                    sizeBox,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        StudentDataCard(
+                          title: 'Attendance',
+                          value: '92.06%',
+                          onPress: () {
+                            //goto Attendance Screen
+                          },
+                        ),
+                        StudentDataCard(
+                          title: 'Fees Due',
+                          value: '600\$',
+                          onPress: () {
+                            //goto fees screen
+                            Navigator.of(context).push(UniquePageRoute(builder: (_) => FeeScreen()));
+                          },
+                        ),
+                        StudentDataCard(
+                          title: 'Credit',
+                          value: '15.5',
+                          onPress: () {
+                            //goto fees screen
+                            Navigator.of(context).push(UniquePageRoute(builder: (_) => CreditScreen()));
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  color: Colors.transparent,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: kOtherColor,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(kDefaultPadding * 3),
+                        topRight: Radius.circular(kDefaultPadding * 3),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          HomeCard(
-                            onPress: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>   RegisteredCourses(),
-                                ),
-                              );
-                            },
-                            icon: 'assets/icons/result.svg',
-                            title: 'Registered\nCourses',
-                          ),
-                          HomeCard(
-                            onPress: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>   StudentClassesTab(),
-                                ),
-                              );
-                            },
-                            icon: 'assets/icons/timetable.svg',
-                            title: 'Courses Work',
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          HomeCard(
-                            onPress: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>  const ExamScreen(),
-                                ),
-                              );
-                            },
-                            icon: 'assets/icons/resume.svg',
-                            title: 'Exam\nNotice',
-                          ),
-                          HomeCard(
-                            onPress: () {
-                              Navigator.of(context).push(UniquePageRoute(builder: (_) => FacultyListPage()));
-                            },
-                            icon: 'assets/icons/event.svg',
-                            title: 'Faculty\nRecemmendation',
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          HomeCard(
-                            onPress: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>  const LoginScreen(),
-                                ),
-                              );
-                            },
-                            icon: 'assets/icons/logout.svg',
-                            title: 'Logout',
-                          ),
-                        ],
-                      ),
-                    ],
+                    ),
+                    child: ListView(
+                      physics: const BouncingScrollPhysics(),
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            HomeCard(
+                              onPress: () {
+                                Navigator.of(context).push(UniquePageRoute(builder: (_) => WallTab()));
+
+                              },
+                              icon: 'assets/icons/quiz.svg',
+                              title: 'Notice',
+                            ),
+                            HomeCard(
+                              onPress: () {
+                                Navigator.of(context).push(UniquePageRoute(builder: (_) => JoinClass()));
+                                ;
+                              },
+                              icon: 'assets/icons/assignment.svg',
+                              title: 'Add Courses',
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            HomeCard(
+                              onPress: () {
+                                Navigator.of(context).push(UniquePageRoute(builder: (_) => RegisteredCourses()));
+                              },
+                              icon: 'assets/icons/result.svg',
+                              title: 'Registered\nCourses',
+                            ),
+                            HomeCard(
+                              onPress: () {
+                                Navigator.of(context).push(UniquePageRoute(builder: (_) => StudentClassesTab()));
+
+                              },
+                              icon: 'assets/icons/timetable.svg',
+                              title: 'Courses Work',
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            HomeCard(
+                              onPress: () {
+                                Navigator.of(context).push(UniquePageRoute(builder: (_) => ExamScreen()));
+
+                              },
+                              icon: 'assets/icons/resume.svg',
+                              title: 'Exam\nNotice',
+                            ),
+                            HomeCard(
+                              onPress: () {
+                                Navigator.of(context).push(UniquePageRoute(builder: (_) => FacultyListPage()));
+                              },
+                              icon: 'assets/icons/event.svg',
+                              title: 'Faculty\nRecemmendation',
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            HomeCard(
+                              onPress: () {
+                                AuthService().logout();
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>  const LoginScreen(),
+                                  ),
+                                );
+                              },
+                              icon: 'assets/icons/logout.svg',
+                              title: 'Logout',
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

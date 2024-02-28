@@ -5,13 +5,17 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:student_management_system/Announchment/data/custom_user.dart';
 import 'package:student_management_system/Announchment/screens/teacher_classroom/add_class.dart';
+import 'package:student_management_system/screens/Attendance_Screen/pages/attendencepages/attendencePage.dart';
+import 'package:student_management_system/screens/admin_login_screen/admin_login_screen.dart';
 import '../../../Announchment/data/accounts.dart';
 import '../../../Announchment/screens/asignedCourses.dart';
 import '../../../Announchment/screens/teacher_classroom/TeacherClasses.dart';
+import '../../../Announchment/services/auth.dart';
 import '../../../animated_route_page.dart';
 import '../../../components/profile_image_picker.dart';
 import '../../../constants.dart';
 import '../../Attendance_Page/attendance_page.dart';
+import '../../Attendance_Screen/Attendance_list/Select_courses.dart';
 import '../../Attendance_Screen/pages/reportpages/reportGenration.dart';
 import '../../admin_Profile/admin_Profile.dart';
 import '../../student_login_screen/login_screen.dart';
@@ -25,6 +29,7 @@ class FacultyHomeScreen extends StatefulWidget {
 }
 
 class _FacultyHomeScreenState extends State<FacultyHomeScreen> {
+  bool _isLoggedOut = false;
 
 
   @override
@@ -32,19 +37,38 @@ class _FacultyHomeScreenState extends State<FacultyHomeScreen> {
     super.initState();
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CustomUser?>(context);
     var account = getAccount(user!.uid);
-    return Scaffold(
-      body: Column(
-        children: [
-          _buildProfileSection(user),
-          _buildExpandedSection(account),
-        ],
+    return WillPopScope(
+      onWillPop: () async {
+        if (!_isLoggedOut) {
+          // If user is not logged out, log them out and prevent default back button behavior
+          setState(() {
+            _isLoggedOut = true;
+          });
+          // Add a delay to mimic a loading screen
+          //await Future.delayed(Duration(seconds: 1));
+          AuthService().logout();
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>  const AdminLoginScreen(),
+            ),
+          );
+          return false; // Prevent default back button behavior
+        } else {
+          return true;
+        }
+      },
+      child: Scaffold(
+        body: Column(
+          children: [
+            _buildProfileSection(user),
+            _buildExpandedSection(account),
+          ],
+        ),
       ),
     );
   }
@@ -121,7 +145,7 @@ class _FacultyHomeScreenState extends State<FacultyHomeScreen> {
               _buildRow(
                 HomeCard(
                   onPress: () {
-                    Navigator.of(context).push(UniquePageRoute(builder: (_) => StudentAttendancePage()));
+                    Navigator.of(context).push(UniquePageRoute(builder: (_) =>  StudentAttendancePage()));
                   },
                   icon: 'assets/icons/holiday.svg',
                   title: 'Attendance',
@@ -145,7 +169,7 @@ class _FacultyHomeScreenState extends State<FacultyHomeScreen> {
                 HomeCard(
                   onPress: () {},
                   icon: 'assets/icons/datasheet.svg',
-                  title: 'Make an\nAnnouncement',
+                  title: 'Update an\nAnnouncement',
                 ),
               ),
               _buildRow(
@@ -156,7 +180,13 @@ class _FacultyHomeScreenState extends State<FacultyHomeScreen> {
                 ),
                 HomeCard(
                   onPress: () {
-                    Navigator.of(context).push(UniquePageRoute(builder: (_) => LoginScreen()));
+                    AuthService().logout();
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>  const AdminLoginScreen(),
+                      ),
+                    );
                   },
                   icon: 'assets/icons/logout.svg',
                   title: 'Logout',

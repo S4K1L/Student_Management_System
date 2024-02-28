@@ -21,7 +21,7 @@ import 'Announchment/screens/wrapper.dart';
 Map<String, WidgetBuilder> routes = {
   SplashScreen.routeName : (context) =>  SplashScreen(),
   LoginScreen.routeName : (context) =>  LoginScreen(),
-  HomeScreen.routeName : (context) =>  HomeScreen(),
+  StudentHomeScreen.routeName : (context) =>  StudentHomeScreen(),
   MyProfileScreen.routeName : (context) =>  MyProfileScreen(),
   FeeScreen.routeName : (context) =>  FeeScreen(),
   AdminLoginScreen.routeName : (context) =>  AdminLoginScreen(),

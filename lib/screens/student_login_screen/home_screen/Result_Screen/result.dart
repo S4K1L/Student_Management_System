@@ -54,7 +54,7 @@ class _ResultScreenState extends State<ResultScreen> {
         appBar: AppBar(
           leading: TextButton(
             onPressed: () {
-              Navigator.pushNamed(context, HomeScreen.routeName);
+              Navigator.pushNamed(context, StudentHomeScreen.routeName);
             },
             child: Icon(
               Icons.arrow_back_ios,

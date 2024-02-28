@@ -23,7 +23,7 @@ class _WallTabState extends State<WallTab> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const HomeScreen(),
+                  builder: (context) => const StudentHomeScreen(),
                 ),
               );
             },
@@ -53,7 +53,7 @@ class _WallTabState extends State<WallTab> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomeScreen(),
+                builder: (context) => const StudentHomeScreen(),
               ),
             );
           },

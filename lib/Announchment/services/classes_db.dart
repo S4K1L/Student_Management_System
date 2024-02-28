@@ -44,4 +44,47 @@ class ClassesDB {
   }
 
 
+
+// function to retrieve courses created by the faculty
+  Future<List<Map<String, dynamic>>?> getFacultyCourses() async {
+    // Query the classReference collection for documents where creator is equal to the user's ID
+    QuerySnapshot querySnapshot = await classReference
+        .where('creator', isEqualTo: user!.uid)
+        .get();
+
+    // Convert the documents to a list of maps
+    List<Map<String, dynamic>> courses = [];
+    for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+      // Get the number of students joined for each course
+      QuerySnapshot studentsSnapshot = await studentReference
+          .where('className', isEqualTo: doc['className'])
+          .get();
+      int studentsJoined = studentsSnapshot.docs.length;
+
+      // Add the course data along with the number of students joined to the list
+      courses.add({
+        ...doc.data() as Map<String, dynamic>,
+        'studentsJoined': studentsJoined,
+      });
+    }
+
+    return courses;
+  }
+
+  // function to retrieve courses assigned to the student
+  Future<List<Map<String, dynamic>>?> getCourseStudents(String courseId) async {
+    QuerySnapshot querySnapshot = await studentReference
+        .where('uid', isEqualTo: user!.uid)
+        .get();
+
+    List<Map<String, dynamic>> courses = [];
+    for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+      DocumentSnapshot courseDoc = await classReference.doc(doc['className']).get();
+      if (courseDoc.exists) {
+        courses.add(courseDoc.data() as Map<String, dynamic>);
+      }
+    }
+
+    return courses;
+  }
 }

@@ -155,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (documentSnapshot.exists) {
         if (documentSnapshot.get('type') == "student") {
           if (documentSnapshot.get('type') == "student") {
-            Navigator.of(context).push(UniquePageRoute(builder: (_) => HomeScreen()));
+            Navigator.of(context).push(UniquePageRoute(builder: (_) => StudentHomeScreen()));
           }
         } else {
           print('Document does not exist on the database');

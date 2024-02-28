@@ -29,7 +29,7 @@ class _StudentClassesTabState extends State<StudentClassesTab> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) =>  const HomeScreen(),
+                builder: (context) =>  const StudentHomeScreen(),
               ),
             );
           },

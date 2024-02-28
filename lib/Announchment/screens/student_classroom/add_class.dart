@@ -30,7 +30,7 @@ class _JoinClassState extends State<JoinClass> {
         appBar: AppBar(
           leading: TextButton(
             onPressed: () {
-              Navigator.pushNamed(context, HomeScreen.routeName);
+              Navigator.pushNamed(context, StudentHomeScreen.routeName);
             },
             child: const Icon(Icons.arrow_back_ios,color: Colors.white,),
           ),
@@ -84,7 +84,7 @@ class _JoinClassState extends State<JoinClass> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>  const HomeScreen(),
+                              builder: (context) =>  const StudentHomeScreen(),
                             ),
                           );
                         }

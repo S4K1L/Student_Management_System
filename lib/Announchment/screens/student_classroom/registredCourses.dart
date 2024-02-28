@@ -30,7 +30,7 @@ class _RegisteredCoursesState extends State<RegisteredCourses> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) =>  const HomeScreen(),
+                builder: (context) =>  const StudentHomeScreen(),
               ),
             );
           },

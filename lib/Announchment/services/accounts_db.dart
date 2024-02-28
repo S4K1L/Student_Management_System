@@ -7,6 +7,7 @@ class AccountsDB {
   // Object to get instance of Accounts table
   CollectionReference accountReference =
   FirebaseFirestore.instance.collection("users");
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // UID used to reference the auth user
   CustomUser? user;
@@ -62,6 +63,35 @@ class AccountsDB {
     });
 
     return listOfAccount;
+  }
+
+  Future<List<DocumentSnapshot>?> getCourseStudents(String courseId) async {
+    try {
+      QuerySnapshot querySnapshot = await _firestore
+          .collection('courses')
+          .doc(courseId)
+          .collection('students')
+          .get();
+
+      return querySnapshot.docs;
+    } catch (e) {
+      print('Error getting course students: $e');
+      return null;
+    }
+  }
+
+  Future<List<DocumentSnapshot>?> getFacultyCourses(String userId) async {
+    try {
+      QuerySnapshot querySnapshot = await _firestore
+          .collection('courses')
+          .where('createdBy', isEqualTo: userId)
+          .get();
+
+      return querySnapshot.docs;
+    } catch (e) {
+      print('Error getting faculty courses: $e');
+      return null;
+    }
   }
 
   // Function to reset user password

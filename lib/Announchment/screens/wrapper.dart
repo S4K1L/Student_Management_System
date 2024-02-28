@@ -28,7 +28,7 @@ class _WrapperState extends State<Wrapper> {
     // logic for if logged in
     if (user != null && accountExists(user.uid)) {
       var typeOfCurrentUser = getAccount(user.uid)!.type;
-      return typeOfCurrentUser == 'student'? HomeScreen() : FacultyHomeScreen();
+      return typeOfCurrentUser == 'student'? StudentHomeScreen() : FacultyHomeScreen();
     }
 
 
