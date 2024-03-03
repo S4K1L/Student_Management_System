@@ -1,24 +1,23 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:student_management_system/constants.dart';
 
-import '../../../Attendance_Screen/pages/profilepages/adminPage.dart';
+import '../Home_Page/admin_HomeScreen.dart';
 
-class FacultyListPage extends StatefulWidget {
-  const FacultyListPage({Key? key}) : super(key: key);
+class StudentListPage extends StatefulWidget {
+  const StudentListPage({Key? key}) : super(key: key);
 
   @override
-  _FacultyListPageState createState() => _FacultyListPageState();
+  _StudentListPageState createState() => _StudentListPageState();
 }
 
-class _FacultyListPageState extends State<FacultyListPage> {
-  late Future<List<DocumentSnapshot>> facultyFuture;
+class _StudentListPageState extends State<StudentListPage> {
+  late Future<List<DocumentSnapshot>> studentsFuture;
 
   @override
   void initState() {
     super.initState();
-    facultyFuture = getUsers('faculty');
+    studentsFuture = getUsers('student');
   }
 
   Future<List<DocumentSnapshot>> getUsers(String userType) async {
@@ -35,13 +34,11 @@ class _FacultyListPageState extends State<FacultyListPage> {
       appBar: AppBar(
         leading: TextButton(
           onPressed: () {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const AdminPage()),
-            );
+            Navigator.pop(context);
           },
           child: const Icon(Icons.arrow_back_ios, color: Colors.white),
         ),
-        title: const Text("Faculty List",style: TextStyle(color: kTextWhiteColor),),
+        title: const Text("Student List",style: TextStyle(color: kTextWhiteColor),),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -52,19 +49,19 @@ class _FacultyListPageState extends State<FacultyListPage> {
           ),
         ),
         child: FutureBuilder<List<DocumentSnapshot>>(
-          future: facultyFuture,
+          future: studentsFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else {
-              List<DocumentSnapshot>? faculty = snapshot.data;
+              List<DocumentSnapshot>? students = snapshot.data;
               return ListView.builder(
-                itemCount: faculty!.length,
+                itemCount: students!.length,
                 itemBuilder: (context, index) {
                   Map<String, dynamic> userData =
-                  faculty[index].data() as Map<String, dynamic>;
+                  students[index].data() as Map<String, dynamic>;
                   String fullName = userData['fullName'] ?? '';
                   String email = userData['email'] ?? '';
                   return _buildUserTile(fullName, email);

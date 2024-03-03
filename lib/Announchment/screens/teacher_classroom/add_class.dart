@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:student_management_system/constants.dart';
-import 'package:student_management_system/screens/admin_login_screen/admin_home_screen/admin_home_screen.dart';
-
+import '../../../screens/Faculty_login_screen/admin_home_screen/Faculty_home_screen.dart';
 import '../../data/custom_user.dart';
 import '../../services/classes_db.dart';
 import '../../services/updatealldata.dart';

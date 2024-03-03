@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
-import '../../screens/admin_login_screen/admin_home_screen/admin_home_screen.dart';
 import '../data/custom_user.dart';
 import '../services/classes_db.dart';
 
@@ -15,12 +14,7 @@ class AssignedCoursesPage extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const FacultyHomeScreen(),
-              ),
-            );
+            Navigator.pop(context);
           },
           icon: Icon(Icons.arrow_back_ios),
         ),

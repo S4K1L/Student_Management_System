@@ -1,20 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import '../../Announchment/data/custom_user.dart';
-import '../../components/profile_image_picker.dart';
-import '../../constants.dart';
+import '../../../Announchment/data/custom_user.dart';
+import '../../../components/profile_image_picker.dart';
+import '../../../constants.dart';
 
-class AdminProfileScreen extends StatefulWidget {
+class FacultyProfileScreen extends StatefulWidget {
   final CustomUser? user;
 
-  const AdminProfileScreen({Key? key, required this.user}) : super(key: key);
+  const FacultyProfileScreen({Key? key, required this.user}) : super(key: key);
 
   @override
-  State<AdminProfileScreen> createState() => _AdminProfileScreenState();
+  State<FacultyProfileScreen> createState() => _FacultyProfileScreenState();
 }
 
-class _AdminProfileScreenState extends State<AdminProfileScreen> {
+class _FacultyProfileScreenState extends State<FacultyProfileScreen> {
   Map<String, dynamic> userData = {};
   double behaviourRating = 0.0;
   double skillRating = 0.0;

@@ -103,4 +103,21 @@ class AccountsDB {
       throw error;
     }
   }
+
+  Future<List<DocumentSnapshot>?> getStudentsByCourse(String courseId) async {
+    try {
+      QuerySnapshot querySnapshot = await _firestore
+          .collection('courses')
+          .doc(courseId)
+          .collection('students')
+          .get();
+
+      return querySnapshot.docs;
+    } catch (e) {
+      print('Error getting students by course: $e');
+      return null;
+    }
+  }
+
+
 }

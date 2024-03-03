@@ -8,9 +8,9 @@ import '../../animated_route_page.dart';
 import '../../components/custom_buttons.dart';
 import '../../constants.dart';
 import '../Attendance_Screen/pages/forgetpass.dart';
-import '../Attendance_Screen/pages/profilepages/adminPage.dart';
+import '../admin_Screen/Home_Page/admin_HomeScreen.dart';
 import '../student_login_screen/login_screen.dart';
-import 'admin_home_screen/admin_home_screen.dart';
+import 'admin_home_screen/Faculty_home_screen.dart';
 
 late bool _passwordVisible;
 
@@ -41,7 +41,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
         if (result == null) {
           setState(() {
             loading = false;
-            error = 'Some error in logging in! Please check again';
+            error = 'Please check again';
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: const Row(
                 children: [
@@ -69,15 +69,32 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
               ),
               elevation: 6,
               margin: EdgeInsets.all(20),
-            ),);
+            ));
           });
         }
         else {
+          route();
+        }
+      }
+    } catch (e) {
+      print("Sign-up failed: $e");
+    }
+  }
+
+  void route() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    var kk = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) async {
+      if (documentSnapshot.exists) {
+        if (documentSnapshot.get('type') == "faculty") {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: const Row(
               children: [
                 Icon(
-                  Icons.error_outline,
+                  Icons.notifications_active_outlined,
                   color: Colors.white,
                 ),
                 SizedBox(width: 10),
@@ -100,63 +117,112 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
             ),
             elevation: 6,
             margin: EdgeInsets.all(20),
-          ),);
+          ));
           await updateAllData();
-          print("\t\t\tUser Logged in Successfully");
-          //setState(() => loading = false);
-          route();
-        }
-      }
-    } catch (e) {
-      print("Sign-up failed: $e");
-    }
-  }
-
-  void route() {
-    User? user = FirebaseAuth.instance.currentUser;
-    var kk = FirebaseFirestore.instance
-        .collection('users')
-        .doc(user!.uid)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        if (documentSnapshot.get('type') == "faculty") {
           Navigator.of(context).push(UniquePageRoute(builder: (_) => FacultyHomeScreen()));
 
         }
         else if (documentSnapshot.get('type') == "admin") {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: const Row(
+              children: [
+                Icon(
+                  Icons.notifications_active_outlined,
+                  color: Colors.white,
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    "Logged in Successfully",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            backgroundColor: Colors.green,
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 5), // Adjust the duration as needed
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            elevation: 6,
+            margin: EdgeInsets.all(20),
+          ));
+          await updateAllData();
           Navigator.of(context).push(UniquePageRoute(builder: (_) => AdminPage()));
 
         }
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: const Row(
-            children: [
-              Icon(
-                Icons.error_outline,
-                color: Colors.white,
-              ),
-              SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  "Document does not exist on the database",
-                  style: TextStyle(
+        else {
+          setState(() {
+            loading = false;
+            error = 'Please check again';
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: const Row(
+                children: [
+                  Icon(
+                    Icons.error_outline,
                     color: Colors.white,
-                    fontSize: 16,
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      "Some error in logging in!",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              backgroundColor: kErrorBorderColor,
+              behavior: SnackBarBehavior.floating,
+              duration: Duration(seconds: 5), // Adjust the duration as needed
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              elevation: 6,
+              margin: EdgeInsets.all(20),
+            ));
+          });
+          return 'Document does not exist on the database';
+        }
+      } else {
+        setState(() {
+          loading = false;
+          error = 'Please check again';
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: const Row(
+              children: [
+                Icon(
+                  Icons.error_outline,
+                  color: Colors.white,
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    "Some error in logging in!",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          backgroundColor: kErrorBorderColor,
-          behavior: SnackBarBehavior.floating,
-          duration: Duration(seconds: 5), // Adjust the duration as needed
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          elevation: 6,
-          margin: EdgeInsets.all(20),
-        ),);
+              ],
+            ),
+            backgroundColor: kErrorBorderColor,
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 5), // Adjust the duration as needed
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            elevation: 6,
+            margin: EdgeInsets.all(20),
+          ));
+        });
         return 'Document does not exist on the database';
       }
     });

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../../Attendance_Screen/pages/profilepages/adminPage.dart';
 
 class UserListPage extends StatefulWidget {
   const UserListPage({Key? key}) : super(key: key);
@@ -30,9 +29,7 @@ class _UserListPageState extends State<UserListPage> {
       appBar: AppBar(
         leading: TextButton(
           onPressed: () {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const AdminPage()),
-            );
+            Navigator.pop(context);
           },
           child: const Icon(Icons.arrow_back_ios, color: Colors.white),
         ),

@@ -8,7 +8,7 @@ import '../../animated_route_page.dart';
 import '../../components/custom_buttons.dart';
 import '../../constants.dart';
 import '../Attendance_Screen/pages/forgetpass.dart';
-import '../admin_login_screen/admin_login_screen.dart';
+import '../Faculty_login_screen/admin_login_screen.dart';
 import 'home_screen/home_screen.dart';
 
 late bool _passwordVisible;
@@ -79,36 +79,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ),);
           }
           else {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Row(
-                children: [
-                  Icon(
-                    Icons.error_outline,
-                    color: Colors.white,
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      "Welcome Dear Student",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              backgroundColor: Colors.green,
-              behavior: SnackBarBehavior.floating,
-              duration: Duration(seconds: 5), // Adjust the duration as needed
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              elevation: 6,
-              margin: EdgeInsets.all(20),
-            ),);
-            await updateAllData();
-            print("\t\t\tUser Logged in Successfully");
             route();
           }
         }
@@ -145,19 +115,78 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  void route() {
+  void route() async {
     User? user = FirebaseAuth.instance.currentUser;
     var kk = FirebaseFirestore.instance
         .collection('users')
         .doc(user!.uid)
         .get()
-        .then((DocumentSnapshot documentSnapshot) {
+        .then((DocumentSnapshot documentSnapshot) async {
       if (documentSnapshot.exists) {
         if (documentSnapshot.get('type') == "student") {
-          if (documentSnapshot.get('type') == "student") {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Row(
+              children: [
+                Icon(
+                  Icons.notifications_active_outlined,
+                  color: Colors.white,
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    "Welcome Dear Student",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            backgroundColor: Colors.green,
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 5), // Adjust the duration as needed
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            elevation: 6,
+            margin: EdgeInsets.all(20),
+          ));
+          await updateAllData();
             Navigator.of(context).push(UniquePageRoute(builder: (_) => StudentHomeScreen()));
-          }
         } else {
+          setState(() {
+            loading = false;
+            error = 'Please check again';
+          });
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Row(
+              children: [
+                Icon(
+                  Icons.error_outline,
+                  color: Colors.white,
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    error,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            backgroundColor: kErrorBorderColor,
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 5), // Adjust the duration as needed
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            elevation: 6,
+            margin: EdgeInsets.all(20),
+          ),);
           print('Document does not exist on the database');
         }
       }

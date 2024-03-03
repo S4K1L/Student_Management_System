@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:student_management_system/Announchment/data/custom_user.dart';
 import 'package:student_management_system/Announchment/screens/teacher_classroom/add_class.dart';
-import 'package:student_management_system/screens/Attendance_Screen/pages/attendencepages/attendencePage.dart';
-import 'package:student_management_system/screens/admin_login_screen/admin_login_screen.dart';
 import '../../../Announchment/data/accounts.dart';
 import '../../../Announchment/screens/asignedCourses.dart';
 import '../../../Announchment/screens/teacher_classroom/TeacherClasses.dart';
@@ -14,11 +10,9 @@ import '../../../Announchment/services/auth.dart';
 import '../../../animated_route_page.dart';
 import '../../../components/profile_image_picker.dart';
 import '../../../constants.dart';
-import '../../Attendance_Page/attendance_page.dart';
-import '../../Attendance_Screen/Attendance_list/Select_courses.dart';
-import '../../Attendance_Screen/pages/reportpages/reportGenration.dart';
-import '../../admin_Profile/admin_Profile.dart';
-import '../../student_login_screen/login_screen.dart';
+import '../../Attendance_Page/select_courses.dart';
+import 'Faculty_Profile.dart';
+import '../admin_login_screen.dart';
 import 'widgets/admin_data.dart';
 
 class FacultyHomeScreen extends StatefulWidget {
@@ -98,9 +92,7 @@ class _FacultyHomeScreenState extends State<FacultyHomeScreen> {
               kHalfSizeBox,
               ProfileImagePicker(
                 onPress: () {
-                  Navigator.of(context).push(
-                    UniquePageRoute(builder: (_) => AdminProfileScreen(user: user)),
-                  );
+                  Navigator.of(context).push(UniquePageRoute(builder: (_) => FacultyProfileScreen(user: user)),);
                 },
               ),
             ],
@@ -129,10 +121,10 @@ class _FacultyHomeScreenState extends State<FacultyHomeScreen> {
               _buildRow(
                 HomeCard(
                   onPress: () {
-                    Navigator.of(context).push(UniquePageRoute(builder: (_) => ReportGeneration()));
+                    Navigator.of(context).push(UniquePageRoute(builder: (_) => SelectCoursesPage()));
                   },
                   icon: 'assets/icons/quiz.svg',
-                  title: 'Faculty Report',
+                  title: 'Attendance\nReport',
                 ),
                 HomeCard(
                   onPress: () {
@@ -145,7 +137,7 @@ class _FacultyHomeScreenState extends State<FacultyHomeScreen> {
               _buildRow(
                 HomeCard(
                   onPress: () {
-                    Navigator.of(context).push(UniquePageRoute(builder: (_) =>  StudentAttendancePage()));
+                    Navigator.of(context).push(UniquePageRoute(builder: (_) =>  SelectCoursesPage()));
                   },
                   icon: 'assets/icons/holiday.svg',
                   title: 'Attendance',
@@ -165,18 +157,6 @@ class _FacultyHomeScreenState extends State<FacultyHomeScreen> {
                   },
                   icon: 'assets/icons/resume.svg',
                   title: 'Assigned\nCourses',
-                ),
-                HomeCard(
-                  onPress: () {},
-                  icon: 'assets/icons/datasheet.svg',
-                  title: 'Update an\nAnnouncement',
-                ),
-              ),
-              _buildRow(
-                HomeCard(
-                  onPress: () {},
-                  icon: 'assets/icons/lock.svg',
-                  title: 'Upload Results',
                 ),
                 HomeCard(
                   onPress: () {

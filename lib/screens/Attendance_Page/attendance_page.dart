@@ -1,11 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:student_management_system/constants.dart';
+import 'package:flutter/material.dart';
 import '../../Announchment/services/accounts_db.dart';
-import '../admin_login_screen/admin_home_screen/admin_home_screen.dart';
+import '../../constants.dart';
 
 class StudentAttendancePage extends StatefulWidget {
-  const StudentAttendancePage({Key? key}) : super(key: key);
+  final String selectedCourses;
+
+  const StudentAttendancePage({Key? key,required this.selectedCourses}) : super(key: key);
 
   @override
   _StudentAttendancePageState createState() => _StudentAttendancePageState();
@@ -23,22 +24,30 @@ class _StudentAttendancePageState extends State<StudentAttendancePage> {
   }
 
   Future<void> _fetchStudents() async {
-    // Retrieve list of student accounts from Firestore
-    List? students = await _accountsDB.createAccountDataList();
-    setState(() {
-      _students = students
-          ?.where((student) => student['type'] == 'student')
-          .toList() as List<DocumentSnapshot>?;
-      // Initialize attendance map with default values (false for absent)
-      _attendance = Map.fromIterable(
-        _students!,
-        key: (student) => student.id,
-        value: (_) => false,
-      );
-    });
+    try {
+      // Retrieve list of student accounts from Firestore based on selected course
+      List<DocumentSnapshot>? students = await _accountsDB.getStudentsByCourse(widget.selectedCourses);
+      if (students != null) {
+        setState(() {
+          _students = students;
+          // Initialize attendance map with default values (false for absent)
+          _attendance = Map.fromIterable(
+            _students!,
+            key: (student) => student.id,
+            value: (_) => false,
+          );
+        });
+      } else {
+        // Handle error or display appropriate message
+      }
+    } catch (e) {
+      print('Error fetching students: $e');
+      // Handle error or display appropriate message
+    }
   }
 
-  @override
+
+@override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

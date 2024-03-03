@@ -7,20 +7,18 @@ import '../../../../Announchment/services/auth.dart';
 import '../../../../Announchment/services/updatealldata.dart';
 import '../../../../components/custom_buttons.dart';
 import '../../../../constants.dart';
-import '../../../Attendance_Screen/pages/profilepages/adminPage.dart';
+import '../Home_Page/admin_HomeScreen.dart';
 
+class AddStudent extends StatefulWidget {
+  static const String routeName = 'AddStudent';
 
-late bool _passwordVisible;
-
-class AddFaculty extends StatefulWidget {
-  static const String routeName = 'AddFaculty';
-  const AddFaculty({Key? key});
+  const AddStudent({Key? key}) : super(key: key);
 
   @override
-  _AddFacultyState createState() => _AddFacultyState();
+  _AddStudentState createState() => _AddStudentState();
 }
 
-class _AddFacultyState extends State<AddFaculty> {
+class _AddStudentState extends State<AddStudent> {
   final _formKey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
   late CustomUser? user;
@@ -37,12 +35,11 @@ class _AddFacultyState extends State<AddFaculty> {
   String registration = '';
   String dob = '';
   String department = '';
-  String degree = '';
-  String faculty = '';
+  String degree = 'H.S.C';
+  String faculty = 'none';
   String joined = '';
+
   late bool _passwordVisible;
-
-
 
   @override
   void initState() {
@@ -52,8 +49,7 @@ class _AddFacultyState extends State<AddFaculty> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<CustomUser?>(context);
-    final AccountsDB pointer = AccountsDB(user: user!);
+    user = Provider.of<CustomUser?>(context);
     return loading
         ? Loading()
         : GestureDetector(
@@ -65,7 +61,7 @@ class _AddFacultyState extends State<AddFaculty> {
               MaterialPageRoute(builder: (context) => const AdminPage()),
             );
           },
-              child: const Icon(Icons.arrow_back_ios,color: kTextWhiteColor,)),
+          child: const Icon(Icons.arrow_back_ios,color: kTextWhiteColor,)),
         ),
         bottomNavigationBar: Container(
           color: kDefaultIconLightColor,
@@ -140,7 +136,7 @@ class _AddFacultyState extends State<AddFaculty> {
                       margin: EdgeInsets.all(20),
                     ),);
                     // After successful registration, update data in Firestore
-                    await updateFacultyData();
+                    await updateStudentData();
                     setState(() => loading = false);
                     // Navigate to admin page after registration
                     Navigator.pushReplacement(
@@ -170,7 +166,16 @@ class _AddFacultyState extends State<AddFaculty> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Add new Faculty',
+                      Text(
+                        'Hi, ',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .copyWith(
+                          fontWeight: FontWeight.w200,
+                        ),
+                      ),
+                      Text('Student',
                           style: Theme.of(context).textTheme.bodyLarge),
                     ],
                   ),
@@ -193,43 +198,35 @@ class _AddFacultyState extends State<AddFaculty> {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(kDefaultPadding),
-                child: Column(
-                  children: [
-                    Form(
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          SizedBox(height: kDefaultPadding),
-                          buildRegField(),
-                          SizedBox(height: kDefaultPadding),
-                          buildIdField(),
-                          SizedBox(height: kDefaultPadding),
-                          buildNameField(),
-                          SizedBox(height: kDefaultPadding),
-                          buildPostField(),
-                          SizedBox(height: kDefaultPadding),
-                          buildDepartmentField(),
-                          SizedBox(height: kDefaultPadding),
-                          buildFatherNameField(),
-                          SizedBox(height: kDefaultPadding),
-                          buildMotherNameField(),
-                          SizedBox(height: kDefaultPadding),
-                          buildDobField(),
-                          SizedBox(height: kDefaultPadding),
-                          buildPhoneNumberField(),
-                          SizedBox(height: kDefaultPadding),
-                          buildDegreeField(),
-                          SizedBox(height: kDefaultPadding),
-                          buildJoinedDateField(),
-                          SizedBox(height: kDefaultPadding),
-                          buildEmailField(),
-                          SizedBox(height: kDefaultPadding),
-                          buildPasswordField(),
-                          SizedBox(height: kDefaultPadding),
-                        ],
-                      ),
-                    ),
-                  ],
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      SizedBox(height: kDefaultPadding),
+                      buildRegField(),
+                      SizedBox(height: kDefaultPadding),
+                      buildIdField(),
+                      SizedBox(height: kDefaultPadding),
+                      buildNameField(),
+                      SizedBox(height: kDefaultPadding),
+                      buildFatherNameField(),
+                      SizedBox(height: kDefaultPadding),
+                      buildMotherNameField(),
+                      SizedBox(height: kDefaultPadding),
+                      buildDobField(),
+                      SizedBox(height: kDefaultPadding),
+                      buildPhoneNumberField(),
+                      SizedBox(height: kDefaultPadding),
+                      buildDepartmentField(),
+                      SizedBox(height: kDefaultPadding),
+                      buildAdmissionDateField(),
+                      SizedBox(height: kDefaultPadding),
+                      buildEmailField(),
+                      SizedBox(height: kDefaultPadding),
+                      buildPasswordField(),
+                      SizedBox(height: kDefaultPadding),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -238,8 +235,6 @@ class _AddFacultyState extends State<AddFaculty> {
       ),
     );
   }
-
-
 
   TextFormField buildRegField() {
     return TextFormField(
@@ -252,22 +247,6 @@ class _AddFacultyState extends State<AddFaculty> {
       ),
       decoration: InputDecoration(
         labelText: 'Registration',
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-      ),
-    );
-  }
-
-  TextFormField buildDegreeField() {
-    return TextFormField(
-      onChanged: (val) => degree = val,
-      validator: (val) => val!.isEmpty ? 'Enter Highest Degree' : null,
-      style: const TextStyle(
-        color: kTextBlackColor,
-        fontSize: 17.0,
-        fontWeight: FontWeight.w300,
-      ),
-      decoration: InputDecoration(
-        labelText: 'Degree',
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -299,7 +278,7 @@ class _AddFacultyState extends State<AddFaculty> {
         fontWeight: FontWeight.w300,
       ),
       decoration: InputDecoration(
-        labelText: 'Faculty ID',
+        labelText: 'Student ID',
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -337,22 +316,6 @@ class _AddFacultyState extends State<AddFaculty> {
     );
   }
 
-  TextFormField buildPostField() {
-    return TextFormField(
-      onChanged: (val) => faculty = val,
-      validator: (val) => val!.isEmpty ? 'Enter Designation' : null,
-      style: const TextStyle(
-        color: kTextBlackColor,
-        fontSize: 17.0,
-        fontWeight: FontWeight.w300,
-      ),
-      decoration: InputDecoration(
-        labelText: 'Designation',
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-      ),
-    );
-  }
-
   TextFormField buildMotherNameField() {
     return TextFormField(
       onChanged: (val) => motherName = val,
@@ -385,17 +348,17 @@ class _AddFacultyState extends State<AddFaculty> {
     );
   }
 
-  TextFormField buildJoinedDateField() {
+  TextFormField buildAdmissionDateField() {
     return TextFormField(
       onChanged: (val) => joined = val,
-      validator: (val) => val!.isEmpty ? 'Enter Join Date' : null,
+      validator: (val) => val!.isEmpty ? 'Enter Admission Date' : null,
       style: const TextStyle(
         color: kTextBlackColor,
         fontSize: 17.0,
         fontWeight: FontWeight.w300,
       ),
       decoration: InputDecoration(
-        labelText: 'Join Date',
+        labelText: 'Admission Date',
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -460,13 +423,13 @@ class _AddFacultyState extends State<AddFaculty> {
     );
   }
 
-  Future<void> updateFacultyData() async {
+  Future<void> updateStudentData() async {
     final user = Provider.of<CustomUser?>(context, listen: false);
     final AccountsDB pointer = AccountsDB(user: user!);
 
     await pointer.updateAccounts(
       username,
-      'faculty',
+      'student',
       registration,
       id,
       fatherName,
@@ -478,6 +441,7 @@ class _AddFacultyState extends State<AddFaculty> {
       degree,
       department,
       joined,
+
     );
 
     await updateAllData();

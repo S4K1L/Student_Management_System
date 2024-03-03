@@ -1,72 +1,69 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:student_management_system/Announchment/screens/student_homepage.dart';
+import 'package:student_management_system/screens/student_login_screen/login_screen.dart';
 import '../../../Announchment/data/accounts.dart';
 import '../../../Announchment/data/custom_user.dart';
-import '../../../Announchment/screens/student_classroom/add_class.dart';
-import '../../../Announchment/screens/student_classroom/StudentClasses_tab.dart';
-import '../../../Announchment/screens/student_classroom/registredCourses.dart';
-import '../../../Announchment/screens/student_classroom/timeline_tab.dart';
-import '../../../Announchment/screens/student_classroom/wall_tab.dart';
 import '../../../Announchment/services/auth.dart';
 import '../../../animated_route_page.dart';
 import '../../../components/profile_image_picker.dart';
 import '../../../constants.dart';
+import '../../Faculty_login_screen/admin_home_screen/widgets/admin_data.dart';
+import '../../Faculty_login_screen/admin_login_screen.dart';
 import '../../Rating/teacher_rating.dart';
-import '../fee_screen/fee_screen.dart';
-import '../login_screen.dart';
-import '../my_profile/my_profile.dart';
-import 'Credit_screen/credit_screen.dart';
-import 'Exam_Screen/exam_routine.dart';
-import 'widgets/student_data.dart';
+import '../Total_users/tota_users.dart';
+import '../add_faculty/add_faculty.dart';
+import '../add_student/add_student.dart';
+import '../report/student_list.dart';
 
-class StudentHomeScreen extends StatefulWidget {
-  const StudentHomeScreen({super.key});
-  static String routeName = 'HomeScreen';
+class AdminPage extends StatefulWidget {
+  const AdminPage({super.key});
+
+  static String routeName = 'AdminPage';
 
   @override
-  State<StudentHomeScreen> createState() => _StudentHomeScreenState();
+  State<AdminPage> createState() => _AdminPageState();
 }
 
-class _StudentHomeScreenState extends State<StudentHomeScreen> {
+class _AdminPageState extends State<AdminPage> {
   bool _isLoggedOut = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final AuthService _auth = AuthService();
     final user = Provider.of<CustomUser?>(context);
     var account = getAccount(user!.uid);
-
     return WillPopScope(
-      onWillPop: () async {
-        if (!_isLoggedOut) {
-          // If user is not logged out, log them out and prevent default back button behavior
-          setState(() {
-            _isLoggedOut = true;
-          });
-          // Add a delay to mimic a loading screen
-          //await Future.delayed(Duration(seconds: 1));
-          AuthService().logout();
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>  const LoginScreen(),
-            ),
-          );
-          return false; // Prevent default back button behavior
-        } else {
-          return true;
-        }
-      },
+        onWillPop: () async {
+          if (!_isLoggedOut) {
+            // If user is not logged out, log them out and prevent default back button behavior
+            setState(() {
+              _isLoggedOut = true;
+            });
+            AuthService().logout();
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>  const AdminLoginScreen(),
+              ),
+            );
+            return false; // Prevent default back button behavior
+          } else {
+            return true;
+          }
+        },
       child: Scaffold(
         body: SafeArea(
           child: Column(
             children: [
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height / 3,
+                height: MediaQuery.of(context).size.height / 2.5,
                 padding: const EdgeInsets.all(kDefaultPadding),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -74,50 +71,21 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                         Column(
+                        Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            StudentName(),
+                            FacultyName(),
                             kHalfSizeBox,
-                            StudentClass(),
+                            FacultyDepartment(),
                             kHalfSizeBox,
-                            StudentYear(),
+                            FacultyPost(),
+                            kHalfSizeBox,
+                            FacultyYear(),
                           ],
                         ),
                         kHalfSizeBox,
                         ProfileImagePicker(
-                          onPress: () {
-                            Navigator.of(context).push(UniquePageRoute(builder: (_) => MyProfileScreen()));
-                          },
-                        ),
-                      ],
-                    ),
-                    sizeBox,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        StudentDataCard(
-                          title: 'Attendance',
-                          value: '92.06%',
-                          onPress: () {
-                            //goto Attendance Screen
-                          },
-                        ),
-                        StudentDataCard(
-                          title: 'Fees Due',
-                          value: '600\$',
-                          onPress: () {
-                            //goto fees screen
-                            Navigator.of(context).push(UniquePageRoute(builder: (_) => FeeScreen()));
-                          },
-                        ),
-                        StudentDataCard(
-                          title: 'Credit',
-                          value: '15.5',
-                          onPress: () {
-                            //goto fees screen
-                            Navigator.of(context).push(UniquePageRoute(builder: (_) => CreditScreen()));
-                          },
+                          onPress: () {},
                         ),
                       ],
                     ),
@@ -144,72 +112,59 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                           children: [
                             HomeCard(
                               onPress: () {
-                                Navigator.of(context).push(UniquePageRoute(builder: (_) => WallTab()));
-
-                              },
-                              icon: 'assets/icons/quiz.svg',
-                              title: 'Notice',
-                            ),
-                            HomeCard(
-                              onPress: () {
-                                Navigator.of(context).push(UniquePageRoute(builder: (_) => JoinClass()));
-                                ;
-                              },
-                              icon: 'assets/icons/assignment.svg',
-                              title: 'Join Courses',
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            HomeCard(
-                              onPress: () {
-                                Navigator.of(context).push(UniquePageRoute(builder: (_) => RegisteredCourses()));
-                              },
-                              icon: 'assets/icons/result.svg',
-                              title: 'Registered\nCourses',
-                            ),
-                            HomeCard(
-                              onPress: () {
-                                Navigator.of(context).push(UniquePageRoute(builder: (_) => StudentClassesTab()));
-
-                              },
-                              icon: 'assets/icons/timetable.svg',
-                              title: 'Courses Work',
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            HomeCard(
-                              onPress: () {
-                                Navigator.of(context).push(UniquePageRoute(builder: (_) => ExamScreen()));
-
-                              },
-                              icon: 'assets/icons/resume.svg',
-                              title: 'Exam\nNotice',
-                            ),
-                            HomeCard(
-                              onPress: () {
                                 Navigator.of(context).push(UniquePageRoute(builder: (_) => FacultyListPage()));
                               },
+                              icon: 'assets/icons/quiz.svg',
+                              title: 'Faculty Report',
+                            ),
+                            HomeCard(
+                              onPress: () {
+                                Navigator.of(context).push(UniquePageRoute(builder: (_) => StudentListPage()));
+
+                              },
                               icon: 'assets/icons/event.svg',
-                              title: 'Faculty\nRecemmendation',
+                              title: 'Student Report',
                             ),
                           ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
+                            HomeCard(
+                              onPress: () {
+                                Navigator.of(context).push(UniquePageRoute(builder: (_) => AddFaculty()));
+                              },
+                              icon: 'assets/icons/resume.svg',
+                              title: 'Add Faculty',
+                            ),
+                            HomeCard(
+                              onPress: () {
+                                Navigator.of(context).push(UniquePageRoute(builder: (_) => AddStudent()));
+
+                              },
+                              icon: 'assets/icons/assignment.svg',
+                              title: 'Add Student',
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            HomeCard(
+                              onPress: () {
+                                Navigator.of(context).push(UniquePageRoute(builder: (_) => UserListPage()));
+
+                              },
+                              icon: 'assets/icons/event.svg',
+                              title: 'Total\nreport',
+                            ),
                             HomeCard(
                               onPress: () {
                                 AuthService().logout();
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>  const LoginScreen(),
+                                    builder: (context) =>  const AdminLoginScreen(),
                                   ),
                                 );
                               },

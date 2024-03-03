@@ -9,6 +9,10 @@ class FacultyListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: TextButton(onPressed: () {
+          Navigator.pop(context);
+        },
+        child: Icon(Icons.arrow_back_ios,color: kTextWhiteColor,)),
         title: const Text('Faculty List', style: TextStyle(color: kTextWhiteColor),),
       ),
       body: StreamBuilder<QuerySnapshot>(

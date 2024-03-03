@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +7,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:path/path.dart';
 import 'package:mime/mime.dart';
-import 'package:student_management_system/constants.dart';
-
-import '../../../../screens/admin_login_screen/admin_home_screen/admin_home_screen.dart';
 import '../../../data/accounts.dart';
 import '../../../data/attachments.dart';
 import '../../../data/classrooms.dart';
@@ -94,12 +90,7 @@ class _AddAnnouncementState extends State<AddAnnouncement> {
         appBar: AppBar(
           leading: TextButton(
             onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>  const FacultyHomeScreen(),
-                ),
-              );
+              Navigator.pop(context);
             },
             child: Icon(
               Icons.arrow_back_ios,
