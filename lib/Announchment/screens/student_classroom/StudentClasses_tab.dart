@@ -40,69 +40,77 @@ class _StudentClassesTabState extends State<StudentClassesTab> {
         ),
         title: const Text('Courses Work',style: TextStyle(color: kTextWhiteColor),),
       ),
-      backgroundColor: Colors.grey[200],
-      body: ListView.builder(
-        itemCount: _classRoomList.length,
-        itemBuilder: (context, int index) {
-          return GestureDetector(
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (_) => ClassRoomPage(
-                uiColor: _classRoomList[index].uiColor,
-                classRoom: _classRoomList[index],
+      body: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(kDefaultPadding),
+            topRight: Radius.circular(kDefaultPadding),
+          ),
+          color: kOtherColor,
+        ),
+        child: ListView.builder(
+          itemCount: _classRoomList.length,
+          itemBuilder: (context, int index) {
+            return GestureDetector(
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => ClassRoomPage(
+                  uiColor: _classRoomList[index].uiColor,
+                  classRoom: _classRoomList[index],
+                ),
+              )),
+              child: Stack(
+                children: [
+                  Container(
+                    height: 100,
+                    margin: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius:
+                      const BorderRadius.all(Radius.circular(8.0)),
+                      color: _classRoomList[index].uiColor,
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 30, left: 30),
+                    width: 220,
+                    child: Text(
+                      _classRoomList[index].className,
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        letterSpacing: 1,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 58, left: 30),
+                    child: Text(
+                      _classRoomList[index].description,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 80, left: 30),
+                    child: Text(
+                      _classRoomList[index].creator.fullName! +
+                          " " +
+                          _classRoomList[index].className,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.white54,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                  )
+                ],
               ),
-            )),
-            child: Stack(
-              children: [
-                Container(
-                  height: 100,
-                  margin: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius:
-                    const BorderRadius.all(Radius.circular(8.0)),
-                    color: _classRoomList[index].uiColor,
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 30, left: 30),
-                  width: 220,
-                  child: Text(
-                    _classRoomList[index].className,
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                      letterSpacing: 1,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 58, left: 30),
-                  child: Text(
-                    _classRoomList[index].description,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.white,
-                      letterSpacing: 1,
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 80, left: 30),
-                  child: Text(
-                    _classRoomList[index].creator.fullName! +
-                        " " +
-                        _classRoomList[index].className,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.white54,
-                      letterSpacing: 1,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:student_management_system/Announchment/data/accounts.dart';
 import 'package:student_management_system/Announchment/data/classrooms.dart';
 import 'package:student_management_system/Announchment/screens/student_classroom/class_room_page.dart';
 import 'package:student_management_system/Announchment/screens/teacher_classroom/class_room_page.dart';
+import '../../../constants.dart';
 import '../../data/custom_user.dart';
 
 class TeacherClassesTab extends StatefulWidget {
@@ -25,14 +26,19 @@ class _TeacherClassesTabState extends State<TeacherClassesTab> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
         title: Text(
           'Your Classes',
           style: TextStyle(color: Colors.white),
         ),
       ),
       body: Container(
-        color: Colors.white,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(kDefaultPadding),
+            topRight: Radius.circular(kDefaultPadding),
+          ),
+          color: kOtherColor,
+        ),
         child: ListView.builder(
           itemCount: _classRoomList.length,
           itemBuilder: (context, int index) {

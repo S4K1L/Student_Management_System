@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:student_management_system/Announchment/data/classrooms.dart';
 import 'package:student_management_system/Announchment/widgets/profile_tile.dart';
+import 'package:student_management_system/constants.dart';
 
 class PeopleTab extends StatefulWidget {
   ClassRooms classRoom;
@@ -23,7 +24,7 @@ class _PeopleTabState extends State<PeopleTab> {
           child: Text(
             "Teachers",
             style: TextStyle(
-                fontSize: 20, color: widget.uiColor, letterSpacing: 1),
+                fontSize: 20, color: kTextWhiteColor, letterSpacing: 1),
           ),
         ),
         Container(
@@ -41,7 +42,7 @@ class _PeopleTabState extends State<PeopleTab> {
           child: Text(
             "Classmates",
             style: TextStyle(
-                fontSize: 20, color: widget.uiColor, letterSpacing: 1),
+                fontSize: 20, color: kTextWhiteColor, letterSpacing: 1),
           ),
         ),
         Container(

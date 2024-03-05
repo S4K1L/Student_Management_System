@@ -119,5 +119,20 @@ class AccountsDB {
     }
   }
 
+  Future<List<DocumentSnapshot>?> getAttendanceByStudentAndCourse(
+      String courseId, String studentId) async {
+    try {
+      QuerySnapshot querySnapshot = await _firestore
+          .collection('courses')
+          .doc(courseId)
+          .collection('attendance')
+          .where('studentId', isEqualTo: studentId)
+          .get();
 
+      return querySnapshot.docs;
+    } catch (e) {
+      print('Error getting attendance by student and course: $e');
+      return null;
+    }
+  }
 }

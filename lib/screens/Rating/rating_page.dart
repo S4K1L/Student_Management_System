@@ -21,67 +21,70 @@ class _RatingPageState extends State<RatingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: kTextWhiteColor,
-        title: const Text('Make your Rating',style: TextStyle(fontSize: 25,color: kPrimaryColor),),
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Container(
-          margin: EdgeInsets.only(
-            left: kDefaultPadding,
-            right: kDefaultPadding,
-          ),
-          padding: EdgeInsets.only(right: kDefaultPadding),
-          width: double.infinity,
-          height: 60.0,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(kDefaultPadding),
-          ),
-          child: ElevatedButton(
-            onPressed: () {
-              saveRatingsToFirestore();
-            },
-            child: const Text("Submit Ratings",style: TextStyle(fontSize: 20),),
-          ),
-        ),
+        title: const Text('Make your Rating',style: TextStyle(fontSize: 25,color: kTextWhiteColor),),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            RatingOption(
-                title: 'Behaviour',
-                rating: behaviourRating,
-                onChanged: (value) {
-                  setState(() {
-                    behaviourRating = value;
-                  });
-                }),
-            RatingOption(
-                title: 'Skill',
-                rating: skillRating,
-                onChanged: (value) {
-                  setState(() {
-                    skillRating = value;
-                  });
-                }),
-            RatingOption(
-                title: 'Lecture',
-                rating: lectureRating,
-                onChanged: (value) {
-                  setState(() {
-                    lectureRating = value;
-                  });
-                }),
-            RatingOption(
-                title: 'Marking',
-                rating: markingRating,
-                onChanged: (value) {
-                  setState(() {
-                    markingRating = value;
-                  });
-                }),
-          ],
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(kDefaultPadding),
+              topRight: Radius.circular(kDefaultPadding),
+            ),
+            color: kOtherColor,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              RatingOption(
+                  title: 'Behaviour',
+                  rating: behaviourRating,
+                  onChanged: (value) {
+                    setState(() {
+                      behaviourRating = value;
+                    });
+                  }),
+              RatingOption(
+                  title: 'Skill',
+                  rating: skillRating,
+                  onChanged: (value) {
+                    setState(() {
+                      skillRating = value;
+                    });
+                  }),
+              RatingOption(
+                  title: 'Lecture',
+                  rating: lectureRating,
+                  onChanged: (value) {
+                    setState(() {
+                      lectureRating = value;
+                    });
+                  }),
+              RatingOption(
+                  title: 'Marking',
+                  rating: markingRating,
+                  onChanged: (value) {
+                    setState(() {
+                      markingRating = value;
+                    });
+                  }),
+              SizedBox(height: 190,),
+              ElevatedButton(
+                onPressed: () {
+                  saveRatingsToFirestore();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: kPrimaryColor,
+                  minimumSize: const Size(250, 60),
+                ),
+                child: const Text("Submit Ratings",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: "Roboto",
+                      fontSize: 20,
+                    )),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -126,7 +129,7 @@ class RatingOption extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.lightBlueAccent, // Change the color as needed
+        color: kPrimaryColor, // Change the color as needed
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
@@ -151,7 +154,7 @@ class RatingOption extends StatelessWidget {
                 Slider(
                   value: rating,
                   onChanged: onChanged,
-                  activeColor: Colors.indigo,
+                  activeColor: kTextWhiteColor,
                   inactiveColor: Colors.indigo.withOpacity(0.5),
                 ),
                 SizedBox(height: 8),

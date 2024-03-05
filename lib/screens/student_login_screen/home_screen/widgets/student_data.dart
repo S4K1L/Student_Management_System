@@ -100,9 +100,8 @@ class StudentYear extends StatelessWidget {
 }
 
 class StudentDataCard extends StatelessWidget {
-  const StudentDataCard({super.key, required this.title, required this.value, required this.onPress});
+  const StudentDataCard({super.key, required this.title, required this.onPress});
   final String title;
-  final String value;
   final VoidCallback onPress;
 
   @override
@@ -123,22 +122,11 @@ class StudentDataCard extends StatelessWidget {
               title,
               style: Theme.of(context)
                   .textTheme
-                  .bodyText2!
+                  .bodyMedium!
                   .copyWith(
                 fontSize: 16.0,
                 color: kTextBlackColor,
                 fontWeight: FontWeight.w800,
-              ),
-            ),
-            Text(
-              value,
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle2!
-                  .copyWith(
-                fontSize: 20.0,
-                color: kTextBlackColor,
-                fontWeight: FontWeight.w300,
               ),
             ),
           ],

@@ -1,14 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:student_management_system/Announchment/screens/student_homepage.dart';
 import '../../../Announchment/data/accounts.dart';
 import '../../../Announchment/data/custom_user.dart';
 import '../../../Announchment/screens/student_classroom/add_class.dart';
 import '../../../Announchment/screens/student_classroom/StudentClasses_tab.dart';
 import '../../../Announchment/screens/student_classroom/registredCourses.dart';
-import '../../../Announchment/screens/student_classroom/timeline_tab.dart';
 import '../../../Announchment/screens/student_classroom/wall_tab.dart';
 import '../../../Announchment/services/auth.dart';
 import '../../../animated_route_page.dart';
@@ -20,6 +17,7 @@ import '../login_screen.dart';
 import '../my_profile/my_profile.dart';
 import 'Credit_screen/credit_screen.dart';
 import 'Exam_Screen/exam_routine.dart';
+import 'attendance_report/my_attendance.dart';
 import 'widgets/student_data.dart';
 
 class StudentHomeScreen extends StatefulWidget {
@@ -52,7 +50,7 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) =>  const LoginScreen(),
+              builder: (context) => const LoginScreen(),
             ),
           );
           return false; // Prevent default back button behavior
@@ -74,7 +72,7 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                         Column(
+                        Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             StudentName(),
@@ -98,24 +96,24 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                       children: [
                         StudentDataCard(
                           title: 'Attendance',
-                          value: '92.06%',
                           onPress: () {
-                            //goto Attendance Screen
+                            // Go to Attendance Screen
+                            Navigator.of(context).push(UniquePageRoute(
+                              builder: (_) => StudentAttendanceReportPage(currentUser: user),
+                            ));
                           },
                         ),
                         StudentDataCard(
                           title: 'Fees Due',
-                          value: '600\$',
                           onPress: () {
-                            //goto fees screen
+                            // Go to fees screen
                             Navigator.of(context).push(UniquePageRoute(builder: (_) => FeeScreen()));
                           },
                         ),
                         StudentDataCard(
                           title: 'Credit',
-                          value: '15.5',
                           onPress: () {
-                            //goto fees screen
+                            // Go to fees screen
                             Navigator.of(context).push(UniquePageRoute(builder: (_) => CreditScreen()));
                           },
                         ),
@@ -145,7 +143,6 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                             HomeCard(
                               onPress: () {
                                 Navigator.of(context).push(UniquePageRoute(builder: (_) => WallTab()));
-
                               },
                               icon: 'assets/icons/quiz.svg',
                               title: 'Notice',
@@ -153,7 +150,6 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                             HomeCard(
                               onPress: () {
                                 Navigator.of(context).push(UniquePageRoute(builder: (_) => JoinClass()));
-                                ;
                               },
                               icon: 'assets/icons/assignment.svg',
                               title: 'Join Courses',
@@ -173,7 +169,6 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                             HomeCard(
                               onPress: () {
                                 Navigator.of(context).push(UniquePageRoute(builder: (_) => StudentClassesTab()));
-
                               },
                               icon: 'assets/icons/timetable.svg',
                               title: 'Courses Work',
@@ -186,7 +181,6 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                             HomeCard(
                               onPress: () {
                                 Navigator.of(context).push(UniquePageRoute(builder: (_) => ExamScreen()));
-
                               },
                               icon: 'assets/icons/resume.svg',
                               title: 'Exam\nNotice',
@@ -196,7 +190,7 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                                 Navigator.of(context).push(UniquePageRoute(builder: (_) => FacultyListPage()));
                               },
                               icon: 'assets/icons/event.svg',
-                              title: 'Faculty\nRecemmendation',
+                              title: 'Faculty\nRecommendation',
                             ),
                           ],
                         ),
@@ -209,7 +203,7 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>  const LoginScreen(),
+                                    builder: (context) => const LoginScreen(),
                                   ),
                                 );
                               },

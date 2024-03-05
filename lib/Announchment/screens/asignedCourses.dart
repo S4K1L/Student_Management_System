@@ -16,26 +16,35 @@ class AssignedCoursesPage extends StatelessWidget {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.arrow_back_ios),
+          icon: Icon(Icons.arrow_back_ios,color: kTextWhiteColor,),
         ),
         title: Text(
           'Assigned Courses',
           style: TextStyle(color: kTextWhiteColor),
         ),
       ),
-      body: FutureBuilder<List<Map<String, dynamic>>?>(
-        future: ClassesDB(user: user).getFacultyCourses(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else {
-            if (snapshot.hasError || snapshot.data == null) {
-              return Center(child: Text('Error: Failed to fetch data'));
+      body: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(kDefaultPadding),
+            topRight: Radius.circular(kDefaultPadding),
+          ),
+          color: kOtherColor,
+        ),
+        child: FutureBuilder<List<Map<String, dynamic>>?>(
+          future: ClassesDB(user: user).getFacultyCourses(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
             } else {
-              return _buildCoursesList(context, snapshot.data!);
+              if (snapshot.hasError || snapshot.data == null) {
+                return Center(child: Text('Error: Failed to fetch data'));
+              } else {
+                return _buildCoursesList(context, snapshot.data!);
+              }
             }
-          }
-        },
+          },
+        ),
       ),
     );
   }

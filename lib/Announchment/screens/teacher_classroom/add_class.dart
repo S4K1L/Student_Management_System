@@ -67,9 +67,8 @@ class _AddClassState extends State<AddClass> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.arrow_back_ios),
+          icon: Icon(Icons.arrow_back_ios, color: kTextWhiteColor),
         ),
-        backgroundColor: Colors.blue,
         elevation: 0.5,
         title: Text(
           "New Semester Courses",
@@ -80,133 +79,146 @@ class _AddClassState extends State<AddClass> {
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(16),
-        child: ElevatedButton(
-          onPressed: () async {
-            if (_formKey.currentState!.validate()) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Row(
-                  children: [
-                    Icon(
-                      Icons.error_outline,
-                      color: Colors.white,
+      body: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(kDefaultPadding),
+            topRight: Radius.circular(kDefaultPadding),
+          ),
+          color: kOtherColor,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.grey[200],
+                  ),
+                  child: TextFormField(
+                    style: TextStyle(color: Colors.black54,fontSize: 20), // Change input text color to black
+                    decoration: InputDecoration(
+                      labelText: "Courses Name with Code",
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        "New Courses Created",
+                    validator: (val) => val!.isEmpty ? 'Enter Course Name with Code' : null,
+                    onChanged: (val) {
+                      setState(() {
+                        className = val;
+                      });
+                    },
+                  ),
+                ),
+                SizedBox(height: 20.0),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.grey[200],
+                  ),
+                  child: Center(
+                    child: TextFormField(
+                      style: TextStyle(color: Colors.black54,fontSize: 20), // Change input text color to black
+                      decoration: InputDecoration(
+                        labelText: "Description",
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      ),
+                      maxLines: 5,
+                      onChanged: (val) {
+                        setState(() {
+                          description = val;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20.0),
+                OutlinedButton(
+                  onPressed: _openColorPicker,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Select Color",
                         style: TextStyle(
-                          color: Colors.white,
+                          color: kPrimaryColor,
                           fontSize: 16,
                         ),
                       ),
-                    ),
-                  ],
+                      CircleAvatar(
+                        backgroundColor: uiColor,
+                        radius: 15,
+                      ),
+                    ],
+                  ),
                 ),
-                backgroundColor: Colors.green,
-                behavior: SnackBarBehavior.floating,
-                duration: Duration(seconds: 5), // Adjust the duration as needed
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                elevation: 6,
-                margin: EdgeInsets.all(20),
-              ),);
+                SizedBox(height: 250,),
+                ElevatedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Row(
+                          children: [
+                            Icon(
+                              Icons.error_outline,
+                              color: Colors.white,
+                            ),
+                            SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                "New Courses Created",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        backgroundColor: Colors.green,
+                        behavior: SnackBarBehavior.floating,
+                        duration: Duration(seconds: 5), // Adjust the duration as needed
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        elevation: 6,
+                        margin: EdgeInsets.all(20),
+                      ),
+                      );
 
-              await ClassesDB(user: user).updateClasses(className, description, uiColor);
-              await updateAllData();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const FacultyHomeScreen(),
-                ),
-              );
-            }
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12.0),
-            child: Text(
-              "Create Courses",
-              style: TextStyle(
-                fontSize: 20,
-                color: kTextWhiteColor,
-              ),
-            ),
-          ),
-          style: ElevatedButton.styleFrom(
-            primary: Colors.blue,
-          ),
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.grey[200],
-                ),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    labelText: "Courses Name with Code",
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  ),
-                  validator: (val) => val!.isEmpty ? 'Enter Course Name with Code' : null,
-                  onChanged: (val) {
-                    setState(() {
-                      className = val;
-                    });
+                      await ClassesDB(user: user).updateClasses(className, description, uiColor);
+                      await updateAllData();
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const FacultyHomeScreen(),
+                        ),
+                      );
+                    }
                   },
-                ),
-              ),
-              SizedBox(height: 20.0),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.grey[200],
-                ),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    labelText: "Description",
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  ),
-                  maxLines: 5,
-                  onChanged: (val) {
-                    setState(() {
-                      description = val;
-                    });
-                  },
-                ),
-              ),
-              SizedBox(height: 20.0),
-              OutlinedButton(
-                onPressed: _openColorPicker,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Select Color",
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
+                    child: Text(
+                      "Create Courses",
                       style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 16,
+                        fontSize: 20,
+                        color: kTextWhiteColor,
                       ),
                     ),
-                    CircleAvatar(
-                      backgroundColor: uiColor,
-                      radius: 15,
-                    ),
-                  ],
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
+
       ),
     );
   }

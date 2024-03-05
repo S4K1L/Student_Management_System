@@ -10,31 +10,37 @@ class ExamScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Scaffold(
+        backgroundColor: kPrimaryColor,
         appBar: AppBar(
           leading: TextButton(
             onPressed: () {
-              Navigator.pushNamed(context, StudentHomeScreen.routeName);
+              Navigator.pop(context);
             },
             child: Icon(Icons.arrow_back_ios,color: kTextWhiteColor,),
           ),
           title: const Text(
             'Exams Schedule',
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 25,
+              color: kTextWhiteColor
             ),
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
+        body: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(kDefaultPadding),
+              topRight: Radius.circular(kDefaultPadding),
+            ),
+            color: kOtherColor,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Upcoming Exams',
-                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                '  Upcoming Exams',
+                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold,color: kPrimaryColor),
               ),
               const SizedBox(height: 8.0),
               SizedBox(
@@ -245,8 +251,8 @@ class ExamScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16.0),
               Text(
-                'Recent Exams',
-                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                '  Recent Exams',
+                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold,color: kPrimaryColor),
               ),
               SizedBox(height: 8.0),
               Expanded(
@@ -259,8 +265,8 @@ class ExamScreen extends StatelessWidget {
                           backgroundColor: Colors.blue,
                           child: Icon(Icons.book, color: Colors.white),
                         ),
-                        title: Text('C Programming'),
-                        subtitle: Text('12 May 2024, 9:00 AM'),
+                        title: Text('C Programming',style: TextStyle(fontSize: 20),),
+                        subtitle: Text('12 May 2024, 9:00 AM',style: TextStyle(fontSize: 20),),
                         trailing: Icon(Icons.arrow_forward_ios),
                       ),
                     ),
@@ -271,8 +277,8 @@ class ExamScreen extends StatelessWidget {
                           backgroundColor: Colors.blue,
                           child: Icon(Icons.book, color: Colors.white),
                         ),
-                        title: Text('Object Oriented Programming'),
-                        subtitle: Text('12 May 2024, 9:00 AM'),
+                        title: Text('Object Oriented Programming',style: TextStyle(fontSize: 20),),
+                        subtitle: Text('12 May 2024, 9:00 AM',style: TextStyle(fontSize: 20),),
                         trailing: Icon(Icons.arrow_forward_ios),
                       ),
                     ),
@@ -282,7 +288,6 @@ class ExamScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 }

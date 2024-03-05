@@ -42,11 +42,11 @@ class _StudentListPageState extends State<StudentListPage> {
       ),
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.blue.shade800, Colors.blue.shade400],
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(kDefaultPadding),
+            topRight: Radius.circular(kDefaultPadding),
           ),
+          color: kOtherColor,
         ),
         child: FutureBuilder<List<DocumentSnapshot>>(
           future: studentsFuture,
@@ -76,7 +76,7 @@ class _StudentListPageState extends State<StudentListPage> {
 
   Widget _buildUserTile(String fullName, String email) {
     return Card(
-      color: Colors.white,
+      color: kPrimaryColor,
       margin: const EdgeInsets.symmetric(
         horizontal: 16.0,
         vertical: 8.0,
@@ -86,7 +86,7 @@ class _StudentListPageState extends State<StudentListPage> {
           fullName,
           style: TextStyle(
             fontSize: 24,
-            color: Colors.blue.shade800,
+            color: kTextWhiteColor,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -94,7 +94,7 @@ class _StudentListPageState extends State<StudentListPage> {
           email,
           style: TextStyle(
             fontSize: 16,
-            color: Colors.blue.shade900,
+            color: kTextWhiteColor,
           ),
         ),
       ),

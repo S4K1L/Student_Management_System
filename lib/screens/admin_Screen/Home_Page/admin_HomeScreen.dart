@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:student_management_system/screens/student_login_screen/login_screen.dart';
 import '../../../Announchment/data/accounts.dart';
 import '../../../Announchment/data/custom_user.dart';
 import '../../../Announchment/services/auth.dart';
@@ -18,7 +17,6 @@ import '../report/student_list.dart';
 
 class AdminPage extends StatefulWidget {
   const AdminPage({super.key});
-
   static String routeName = 'AdminPage';
 
   @override

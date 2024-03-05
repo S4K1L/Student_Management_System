@@ -27,7 +27,7 @@ class CreditScreen extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        title: Text('Credit Completed'),
+        title: Text('Credit Completed',style: TextStyle(color: kTextWhiteColor),),
       ),
       body: Column(
         children: [

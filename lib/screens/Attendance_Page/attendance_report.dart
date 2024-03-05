@@ -1,108 +1,134 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:pdf/widgets.dart' as pdfLib;
-import 'package:printing/printing.dart';
+import 'package:student_management_system/constants.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
-class StudentAttendanceReportPage extends StatefulWidget {
-  const StudentAttendanceReportPage({Key? key}) : super(key: key);
+class AttendanceReportPage extends StatefulWidget {
+  final String selectedCourse;
+
+  const AttendanceReportPage({Key? key, required this.selectedCourse}) : super(key: key);
 
   @override
-  _StudentAttendanceReportPageState createState() =>
-      _StudentAttendanceReportPageState();
+  _AttendanceReportPageState createState() => _AttendanceReportPageState();
 }
 
-class _StudentAttendanceReportPageState
-    extends State<StudentAttendanceReportPage> {
-  List<Map<String, dynamic>> _attendanceData = [];
+class _AttendanceReportPageState extends State<AttendanceReportPage> {
+  List<Map<String, dynamic>> attendanceData = [];
 
   @override
   void initState() {
     super.initState();
-    _fetchAttendanceData();
+    fetchAttendanceData();
   }
 
-  Future<void> _fetchAttendanceData() async {
+  Future<void> fetchAttendanceData() async {
     try {
-      QuerySnapshot attendanceSnapshot =
-      await FirebaseFirestore.instance.collection('attendance').get();
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('attendance')
+          .where('course', isEqualTo: widget.selectedCourse)
+          .get();
+
+      List<Map<String, dynamic>> data = [];
+
+      querySnapshot.docs.forEach((doc) {
+        String studentId = doc['studentId'];
+        bool present = doc['present'];
+        DateTime date = doc['date'].toDate(); // Convert Firestore timestamp to DateTime
+
+        // Check if the student exists in the data list
+        int index = data.indexWhere((element) => element['studentId'] == studentId);
+        if (index != -1) {
+          // If the student exists, update their attendance
+          if (present) {
+            data[index]['totalPresent']++;
+          } else {
+            data[index]['totalAbsent']++;
+          }
+        } else {
+          // If the student does not exist, add them to the data list
+          data.add({
+            'studentId': studentId,
+            'totalPresent': present ? 1 : 0,
+            'totalAbsent': present ? 0 : 1,
+          });
+        }
+      });
+
       setState(() {
-        _attendanceData = attendanceSnapshot.docs.map((doc) {
-          Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-          return {
-            'studentId': data['studentId'] ?? '',
-            'date': data['date'] != null
-                ? (data['date'] as Timestamp).toDate().toString()
-                : '',
-            'present': data['present'] != null ? data['present'].toString() : '',
-          };
-        }).toList();
+        attendanceData = data;
       });
     } catch (e) {
       print('Error fetching attendance data: $e');
     }
   }
 
-  Future<void> _generatePdfAndView() async {
-    final pdf = pdfLib.Document();
+  Future<void> _downloadPdf() async {
+    final pdf = pw.Document();
+
     pdf.addPage(
-      pdfLib.MultiPage(
-        build: (context) => [
-          pdfLib.Table.fromTextArray(
-            headers: ['Student ID', 'Date', 'Present'],
-            data: _attendanceData
-                .map((attendance) => [
-              attendance['studentId'],
-              attendance['date'],
-              attendance['present'],
-            ])
-                .toList(),
-          ),
-        ],
+      pw.Page(
+        build: (pw.Context context) {
+          return pw.Table.fromTextArray(
+            data: <List<String>>[
+              <String>['Student ID', 'Total Present', 'Total Absent'],
+              ...attendanceData.map((item) => [item['studentId'], '${item['totalPresent']}', '${item['totalAbsent']}']),
+            ],
+          );
+        },
       ),
     );
 
-    // Print the PDF
-    await Printing.sharePdf(bytes: await pdf.save(), filename: 'attendance.pdf');
+    final String dir = (await getExternalStorageDirectory())!.path;
+    final String path = '$dir/${widget.selectedCourse}_Attendance_Report.pdf';
+    final File file = File(path);
+    await file.writeAsBytes(await pdf.save());
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('PDF downloaded successfully',style: TextStyle(fontSize: 16),),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Student Attendance Report'),
+        title: Text(
+          'Courses: ${widget.selectedCourse}',
+          style: TextStyle(
+            color: kTextWhiteColor,
+          ),
+        ),
+        actions: [
+          IconButton(
+            onPressed: _downloadPdf,
+            icon: Icon(Icons.download,color: kTextWhiteColor,),
+          ),
+        ],
       ),
-      body: _attendanceData.isEmpty
-          ? Center(
-        child: CircularProgressIndicator(),
+      body: attendanceData.isNotEmpty
+          ? ListView.builder(
+        itemCount: attendanceData.length,
+        itemBuilder: (context, index) {
+          // Display attendance report for each student
+          String studentId = attendanceData[index]['studentId'];
+          int totalPresent = attendanceData[index]['totalPresent'];
+          int totalAbsent = attendanceData[index]['totalAbsent'];
+
+          return ListTile(
+            title: Text('Student ID: $studentId'),
+            subtitle: Text('Total Present: $totalPresent, Total Absent: $totalAbsent'),
+          );
+        },
       )
-          : SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: ElevatedButton(
-                onPressed: _generatePdfAndView,
-                child: Text('Download Attendance Report PDF'),
-              ),
-            ),
-            DataTable(
-              columns: [
-                DataColumn(label: Text('Student ID')),
-                DataColumn(label: Text('Date')),
-                DataColumn(label: Text('Present')),
-              ],
-              rows: _attendanceData
-                  .map(
-                    (attendance) => DataRow(cells: [
-                  DataCell(Text(attendance['studentId'])),
-                  DataCell(Text(attendance['date'])),
-                  DataCell(Text(attendance['present'])),
-                ]),
-              )
-                  .toList(),
-            ),
-          ],
+          : Center(
+        child: Text(
+          'No attendance found',
+          style: TextStyle(fontSize: 16),
         ),
       ),
     );

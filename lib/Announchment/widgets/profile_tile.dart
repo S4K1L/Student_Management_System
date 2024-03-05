@@ -22,7 +22,9 @@ class Profile extends StatelessWidget {
           SizedBox(
             width: 10,
           ),
-          Text(user.fullName!)
+          Text(user.fullName!,style: TextStyle(
+            fontSize: 20
+          ),)
         ],
       ),
     );

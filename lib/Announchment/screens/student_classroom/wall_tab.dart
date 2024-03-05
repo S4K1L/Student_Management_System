@@ -31,14 +31,23 @@ class _WallTabState extends State<WallTab> {
           ),
         ),
         backgroundColor: Colors.blueAccent, // Set background color to blue
-        body: Center(
-          child: Text(
-            "No notifications",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.grey,
-              fontFamily: "Roboto",
-              fontSize: 22,
+        body: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(kDefaultPadding),
+              topRight: Radius.circular(kDefaultPadding),
+            ),
+            color: kOtherColor,
+          ),
+          child: Center(
+            child: Text(
+              "No notifications",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.grey,
+                fontFamily: "Roboto",
+                fontSize: 22,
+              ),
             ),
           ),
         ),
@@ -47,7 +56,7 @@ class _WallTabState extends State<WallTab> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Notifications"),
+        title: Text("Notifications",style: TextStyle(color: kTextWhiteColor),),
         leading: IconButton(
           onPressed: () {
             Navigator.pushReplacement(
@@ -60,29 +69,37 @@ class _WallTabState extends State<WallTab> {
           icon: Icon(Icons.arrow_back_ios, color: kTextWhiteColor),
         ),
       ),
-      backgroundColor: Colors.blueAccent,
-      body: ListView.builder(
-        itemCount: notificationList.length,
-        itemBuilder: (context, index) {
-          return Card(
-            margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            elevation: 2,
-            child: ListTile(
-              leading: CircleAvatar(
-                backgroundImage: AssetImage("assets/Dp/cat1.jpg"),
+      body: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(kDefaultPadding),
+            topRight: Radius.circular(kDefaultPadding),
+          ),
+          color: kOtherColor,
+        ),
+        child: ListView.builder(
+          itemCount: notificationList.length,
+          itemBuilder: (context, index) {
+            return Card(
+              margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              elevation: 2,
+              child: ListTile(
+                leading: CircleAvatar(
+                  backgroundImage: AssetImage("assets/Dp/cat1.jpg"),
+                ),
+                title: Text(
+                  notificationList[index].title,
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,color: kPrimaryColor),
+                ),
+                subtitle: Text(
+                  notificationList[index].dateTime,
+                  style: TextStyle(color: Colors.grey,fontSize: 15),
+                ),
+                onTap: () {},
               ),
-              title: Text(
-                notificationList[index].title,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,color: kPrimaryColor),
-              ),
-              subtitle: Text(
-                notificationList[index].dateTime,
-                style: TextStyle(color: Colors.grey,fontSize: 15),
-              ),
-              onTap: () {},
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

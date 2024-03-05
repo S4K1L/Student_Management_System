@@ -27,7 +27,7 @@ class FeeScreen extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        title: Text('Fee'),
+        title: Text('Fee',style: TextStyle(color: kTextWhiteColor),),
       ),
       body: Column(
         children: [
