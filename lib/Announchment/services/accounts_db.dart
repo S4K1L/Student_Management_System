@@ -29,6 +29,7 @@ class AccountsDB {
       String degree,
       String dept,
       String join,
+      String semester,
       ) async {
     return await accountReference.doc(user!.uid).set({
       'uid': user!.uid,
@@ -46,6 +47,7 @@ class AccountsDB {
       "degree": degree,
       "dept": dept,
       "join": join,
+      "semester": semester,
     });
   }
 

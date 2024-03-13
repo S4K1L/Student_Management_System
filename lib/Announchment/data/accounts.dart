@@ -16,6 +16,7 @@ class Account {
   String? degree;
   String? dept;
   String? join;
+  String? semester;
 
   Account({
     this.uid,
@@ -33,6 +34,7 @@ class Account {
     this.degree,
     this.dept,
     this.join,
+    this.semester,
   });
 }
 
@@ -61,6 +63,7 @@ Future<bool> getListAccount() async {
       degree: data["degree"],
       dept: data["dept"],
       join: data["join"],
+      semester: data["semester"],
     ));
   }
 

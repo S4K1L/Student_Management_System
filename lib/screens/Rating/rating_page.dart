@@ -21,11 +21,16 @@ class _RatingPageState extends State<RatingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Make your Rating',style: TextStyle(fontSize: 25,color: kTextWhiteColor),),
+        title: const Text(
+          'Make your Rating',
+          style: TextStyle(fontSize: 25, color: kTextWhiteColor),
+        ),
+        backgroundColor: kPrimaryColor,
       ),
+      backgroundColor: kTextWhiteColor,
       body: SingleChildScrollView(
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(kDefaultPadding),
               topRight: Radius.circular(kDefaultPadding),
@@ -67,7 +72,9 @@ class _RatingPageState extends State<RatingPage> {
                       markingRating = value;
                     });
                   }),
-              SizedBox(height: 190,),
+              SizedBox(
+                height: 190,
+              ),
               ElevatedButton(
                 onPressed: () {
                   saveRatingsToFirestore();
@@ -101,7 +108,11 @@ class _RatingPageState extends State<RatingPage> {
       'markingRating': markingRating,
     }).then((_) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Ratings submitted successfully',style: TextStyle(fontSize: 20),)),
+        SnackBar(
+            content: Text(
+          'Ratings submitted successfully',
+          style: TextStyle(fontSize: 20),
+        )),
       );
     }).catchError((error) {
       ScaffoldMessenger.of(context).showSnackBar(

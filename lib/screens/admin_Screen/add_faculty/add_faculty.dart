@@ -40,6 +40,7 @@ class _AddFacultyState extends State<AddFaculty> {
   String degree = '';
   String faculty = '';
   String joined = '';
+  String semester = 'none';
   late bool _passwordVisible;
 
 
@@ -148,7 +149,7 @@ class _AddFacultyState extends State<AddFaculty> {
                   }
                 }
               },
-              title: 'ADMISSION DONE',
+              title: 'SUBMIT DETAILS',
             ),
           ),
         ),
@@ -156,7 +157,7 @@ class _AddFacultyState extends State<AddFaculty> {
           children: [
             Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 2.0,
+              height: MediaQuery.of(context).size.height / 3.0,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -170,13 +171,13 @@ class _AddFacultyState extends State<AddFaculty> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Add new Faculty',
+                      Text('Create Account',
                           style: Theme.of(context).textTheme.bodyLarge),
                     ],
                   ),
                   const SizedBox(height: kDefaultPadding / 6),
                   Text(
-                    'Create new account',
+                    'For Faculty',
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                 ],
@@ -478,6 +479,7 @@ class _AddFacultyState extends State<AddFaculty> {
       degree,
       department,
       joined,
+      semester,
     );
 
     await updateAllData();

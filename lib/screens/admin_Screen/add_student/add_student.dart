@@ -38,6 +38,7 @@ class _AddStudentState extends State<AddStudent> {
   String degree = 'H.S.C';
   String faculty = 'none';
   String joined = '';
+  String semester = '';
 
   late bool _passwordVisible;
 
@@ -152,7 +153,7 @@ class _AddStudentState extends State<AddStudent> {
           children: [
             Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 2.0,
+              height: MediaQuery.of(context).size.height / 3.0,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -167,7 +168,7 @@ class _AddStudentState extends State<AddStudent> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Hi, ',
+                        'Create, ',
                         style: Theme.of(context)
                             .textTheme
                             .bodyLarge!
@@ -175,13 +176,13 @@ class _AddStudentState extends State<AddStudent> {
                           fontWeight: FontWeight.w200,
                         ),
                       ),
-                      Text('Student',
+                      Text('Account',
                           style: Theme.of(context).textTheme.bodyLarge),
                     ],
                   ),
                   const SizedBox(height: kDefaultPadding / 6),
                   Text(
-                    'Create new account',
+                    'For Student',
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                 ],
@@ -219,6 +220,8 @@ class _AddStudentState extends State<AddStudent> {
                       SizedBox(height: kDefaultPadding),
                       buildDepartmentField(),
                       SizedBox(height: kDefaultPadding),
+                      buildSemesterField(),
+                      SizedBox(height: kDefaultPadding),
                       buildAdmissionDateField(),
                       SizedBox(height: kDefaultPadding),
                       buildEmailField(),
@@ -236,6 +239,21 @@ class _AddStudentState extends State<AddStudent> {
     );
   }
 
+  TextFormField buildSemesterField() {
+    return TextFormField(
+      onChanged: (val) => semester = val,
+      validator: (val) => val!.isEmpty ? 'Enter semester' : null,
+      style: const TextStyle(
+        color: kTextBlackColor,
+        fontSize: 17.0,
+        fontWeight: FontWeight.w300,
+      ),
+      decoration: InputDecoration(
+        labelText: 'semester',
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
   TextFormField buildRegField() {
     return TextFormField(
       onChanged: (val) => registration = val,
@@ -441,6 +459,7 @@ class _AddStudentState extends State<AddStudent> {
       degree,
       department,
       joined,
+      semester,
 
     );
 

@@ -27,15 +27,18 @@ class _StudentNameState extends State<StudentName> {
   Widget build(BuildContext context) {
     final user = Provider.of<CustomUser?>(context);
     var account = getAccount(user!.uid);
-    return Row(
-      children: [
-        Text(
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Flexible(
+        child: Text(
           '${account?.fullName}',
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
           style: Theme.of(context).textTheme.subtitle1!.copyWith(
                 fontWeight: FontWeight.w500,
               ),
         ),
-      ],
+      ),
     );
   }
 }
@@ -109,7 +112,7 @@ class StudentDataCard extends StatelessWidget {
     return InkWell(
       onTap: onPress,
       child: Container(
-        width: MediaQuery.of(context).size.width / 3.5,
+        width: MediaQuery.of(context).size.width / 4,
         height: MediaQuery.of(context).size.height / 12,
         decoration: BoxDecoration(
           color: kOtherColor,

@@ -52,7 +52,7 @@ class _TeacherClassRoomPageState extends State<TeacherClassRoomPage> {
           icon: const Icon(Icons.arrow_back_ios),
           color: kTextWhiteColor,
         ),
-        backgroundColor: widget.uiColor,
+        backgroundColor: kPrimaryColor,
         elevation: 0.5,
         title: Text(
           widget.classRoom.className,
@@ -80,7 +80,7 @@ class _TeacherClassRoomPageState extends State<TeacherClassRoomPage> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: widget.uiColor,
+        selectedItemColor: kPrimaryColor,
         onTap: _onItemTapped,
       ),
       floatingActionButton: FloatingActionButton(
@@ -91,7 +91,7 @@ class _TeacherClassRoomPageState extends State<TeacherClassRoomPage> {
             ),
           ).then((_) => setState(() {}));
         },
-        backgroundColor: widget.uiColor,
+        backgroundColor: kPrimaryColor,
         child: Icon(
           Icons.add,
           color: Colors.white,

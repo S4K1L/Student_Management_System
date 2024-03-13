@@ -25,15 +25,11 @@ class _FacultyNameState extends State<FacultyName> {
   Widget build(BuildContext context) {
     final user = Provider.of<CustomUser?>(context);
     var account = getAccount(user!.uid);
-    return Row(
-      children: [
-        Text(
-          '${account?.fullName}',
-          style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                fontWeight: FontWeight.w500,fontSize: 20,
-              ),
-        ),
-      ],
+    return Text(
+      '${account?.fullName}',
+      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+            fontWeight: FontWeight.w500,fontSize: 20,
+          ),
     );
   }
 }

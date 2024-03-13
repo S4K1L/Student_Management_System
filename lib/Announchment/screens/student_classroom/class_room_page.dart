@@ -52,6 +52,7 @@ class _ClassRoomPageState extends State<ClassRoomPage> {
               color: Colors.white, fontFamily: "Roboto", fontSize: 22),
         ),
       ),
+      backgroundColor: kTextWhiteColor,
       body: tabs[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

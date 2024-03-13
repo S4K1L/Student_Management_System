@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:path/path.dart';
 import 'package:mime/mime.dart';
+import 'package:student_management_system/constants.dart';
 import '../../../data/accounts.dart';
 import '../../../data/attachments.dart';
 import '../../../data/classrooms.dart';
@@ -97,7 +98,7 @@ class _AddAnnouncementState extends State<AddAnnouncement> {
               color: Colors.white,
             ),
           ),
-          backgroundColor: widget.classRoom.uiColor,
+          backgroundColor: kPrimaryColor,
           elevation: 0.5,
           title: Text(
             "Add Announcement",
@@ -115,7 +116,7 @@ class _AddAnnouncementState extends State<AddAnnouncement> {
             )
           ],
         ),
-
+        backgroundColor: kTextWhiteColor,
         // body part
         body: ListView(
           padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
@@ -128,7 +129,9 @@ class _AddAnnouncementState extends State<AddAnnouncement> {
 
                     TextFormField(
                       decoration: InputDecoration(
-                          labelText: "Title", border: OutlineInputBorder()),
+                          labelText: "Title",
+                          labelStyle: TextStyle(color: kTextBlackColor),
+                          border: OutlineInputBorder()),
                       validator: (val) => val!.isEmpty ? 'Enter a title' : null,
                       onChanged: (val) {
                         setState(() {
@@ -141,6 +144,7 @@ class _AddAnnouncementState extends State<AddAnnouncement> {
                     DropdownButtonFormField(
                       decoration: InputDecoration(
                         labelText: "Type",
+                        labelStyle: TextStyle(color: kTextBlackColor),
                         border: OutlineInputBorder(),
                       ),
                       value: type,
@@ -169,6 +173,9 @@ class _AddAnnouncementState extends State<AddAnnouncement> {
                       DateTimeField(
                         decoration: InputDecoration(
                             labelText: "Due Date",
+                            labelStyle: TextStyle(
+                              color: kTextBlackColor,
+                            ),
                             border: OutlineInputBorder()),
                         format: DateFormat('h:mm a EEE, MMM d, yyyy'),
                         initialValue: DateTime.now(),
@@ -288,7 +295,7 @@ class _AddAnnouncementState extends State<AddAnnouncement> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: widget.classRoom.uiColor,
+                        backgroundColor: kPrimaryColor,
                         minimumSize: Size(150, 50),
                       ),
                     )

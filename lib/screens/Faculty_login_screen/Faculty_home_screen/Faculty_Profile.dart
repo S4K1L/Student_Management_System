@@ -71,7 +71,7 @@ class _FacultyProfileScreenState extends State<FacultyProfileScreen> {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Icon(
+          child: const Icon(
             Icons.arrow_back_ios,
             color: kTextWhiteColor,
           ),
@@ -110,7 +110,7 @@ class _FacultyProfileScreenState extends State<FacultyProfileScreen> {
             children: [
               Container(
                 width: double.infinity,
-                height: 220,
+                height: 280,
                 decoration: const BoxDecoration(
                   color: kPrimaryColor,
                   borderRadius: BorderRadius.only(
@@ -120,33 +120,19 @@ class _FacultyProfileScreenState extends State<FacultyProfileScreen> {
                 ),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(width: 10,),
-                        ProfileImagePicker(onPress: () {}),
-                        // Update ProfileImagePicker as needed
-                        kWidthSizeBox,
-                        // User Details
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              '${userData["fullName"] ?? ""}',
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            Text('ID: ${userData["id"] ?? ""}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleSmall!
-                                    .copyWith(
-                                      fontSize: 14.0,
-                                    )),
-                          ],
-                        ),
-                      ],
+                    ProfileImagePicker(onPress: () {}),
+                    kWidthSizeBox,
+                    Text(
+                      '${userData["fullName"] ?? ""}',
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
+                    Text('ID: ${userData["id"] ?? ""}',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall!
+                            .copyWith(
+                          fontSize: 14.0,
+                        )),
                     sizeBox,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,

@@ -13,7 +13,7 @@ import '../../../constants.dart';
 import '../../Attendance_Page/select_courses.dart';
 import '../../Attendance_Screen/make_Attendance.dart';
 import 'Faculty_Profile.dart';
-import '../admin_login_screen.dart';
+import '../Faculty_login_screen.dart';
 import 'widgets/admin_data.dart';
 
 class FacultyHomeScreen extends StatefulWidget {
@@ -58,13 +58,11 @@ class _FacultyHomeScreenState extends State<FacultyHomeScreen> {
         }
       },
       child: Scaffold(
-        body: SafeArea(
-          child: Column(
-            children: [
-              _buildProfileSection(user),
-              _buildExpandedSection(account),
-            ],
-          ),
+        body: Column(
+          children: [
+            _buildProfileSection(user),
+            _buildExpandedSection(account),
+          ],
         ),
       ),
     );
@@ -76,30 +74,21 @@ class _FacultyHomeScreenState extends State<FacultyHomeScreen> {
       padding: EdgeInsets.all(kDefaultPadding),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  FacultyName(),
-                  kHalfSizeBox,
-                  FacultyDepartment(),
-                  kHalfSizeBox,
-                  FacultyPost(),
-                  kHalfSizeBox,
-                  FacultyYear(),
-                ],
-              ),
-              kHalfSizeBox,
-              ProfileImagePicker(
-                onPress: () {
-                  Navigator.of(context).push(UniquePageRoute(builder: (_) => FacultyProfileScreen(user: user)),);
-                },
-              ),
-            ],
+          ProfileImagePicker(
+            onPress: () {
+              Navigator.of(context).push(UniquePageRoute(builder: (_) => FacultyProfileScreen(user: user)),);
+            },
           ),
+          kHalfSizeBox,
+          FacultyName(),
+          kHalfSizeBox,
+          FacultyDepartment(),
+          kHalfSizeBox,
+          FacultyPost(),
+          kHalfSizeBox,
+          FacultyYear(),
         ],
       ),
     );

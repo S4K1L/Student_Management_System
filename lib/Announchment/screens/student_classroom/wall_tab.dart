@@ -20,12 +20,7 @@ class _WallTabState extends State<WallTab> {
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const StudentHomeScreen(),
-                ),
-              );
+              Navigator.pop(context);
             },
             icon: Icon(Icons.arrow_back_ios, color: kTextWhiteColor),
           ),
@@ -59,12 +54,7 @@ class _WallTabState extends State<WallTab> {
         title: Text("Notifications",style: TextStyle(color: kTextWhiteColor),),
         leading: IconButton(
           onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const StudentHomeScreen(),
-              ),
-            );
+            Navigator.pop(context);
           },
           icon: Icon(Icons.arrow_back_ios, color: kTextWhiteColor),
         ),
@@ -87,9 +77,13 @@ class _WallTabState extends State<WallTab> {
                 leading: CircleAvatar(
                   backgroundImage: AssetImage("assets/Dp/cat1.jpg"),
                 ),
-                title: Text(
-                  notificationList[index].title,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,color: kPrimaryColor),
+                title: Flexible(
+                  child: Text(
+                    '${notificationList[index].title}\n${notificationList[index].description}',
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,color: kPrimaryColor),
+                  ),
                 ),
                 subtitle: Text(
                   notificationList[index].dateTime,

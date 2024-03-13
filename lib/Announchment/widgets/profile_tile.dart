@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_management_system/constants.dart';
 
 import '../data/accounts.dart';
 
@@ -23,7 +24,8 @@ class Profile extends StatelessWidget {
             width: 10,
           ),
           Text(user.fullName!,style: TextStyle(
-            fontSize: 20
+            fontSize: 20,
+            color: kPrimaryColor,
           ),)
         ],
       ),

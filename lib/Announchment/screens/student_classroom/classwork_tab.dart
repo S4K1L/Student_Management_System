@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:student_management_system/Announchment/data/announcements.dart';
 import 'package:student_management_system/Announchment/data/custom_user.dart';
 import 'package:student_management_system/Announchment/screens/student_classroom/StudentAnnouncement_page.dart';
+import 'package:student_management_system/constants.dart';
 
 import '../teacher_classroom/TeacherAnnouncement_page.dart';
 
@@ -53,7 +54,7 @@ class _ClassWorkState extends State<ClassWork> {
                         children: [
                           Text(
                             _classWorkList[index].title,
-                            style: TextStyle(letterSpacing: 1,fontSize: 24),
+                            style: TextStyle(letterSpacing: 1,fontSize: 24,color: kPrimaryColor),
                           ),
                           Text(
                             "Due " + _classWorkList[index].dueDate,

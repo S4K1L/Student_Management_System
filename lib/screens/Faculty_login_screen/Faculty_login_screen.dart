@@ -10,7 +10,7 @@ import '../../constants.dart';
 import '../Attendance_Screen/pages/forgetpass.dart';
 import '../admin_Screen/Home_Page/admin_HomeScreen.dart';
 import '../student_login_screen/login_screen.dart';
-import 'admin_home_screen/Faculty_home_screen.dart';
+import 'Faculty_home_screen/Faculty_home_screen.dart';
 
 late bool _passwordVisible;
 
@@ -100,7 +100,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                 SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    "Logged in Successfully",
+                    "Login Successfully",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -262,17 +262,17 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                     children: [
                       Text('Hello, ',
                           style:
-                          Theme.of(context).textTheme.bodyText1!.copyWith(
+                          Theme.of(context).textTheme.bodyLarge!.copyWith(
                             fontWeight: FontWeight.w200,
                           )),
-                      Text('Faculty Member',
+                      Text('Sir',
                           style: Theme.of(context).textTheme.bodyText1),
                     ],
                   ),
                   const SizedBox(height: kDefaultPadding / 6),
                   Text(
-                    'Login to continue',
-                    style: Theme.of(context).textTheme.subtitle2,
+                    'Please, Login to continue',
+                    style: Theme.of(context).textTheme.titleSmall,
                   )
                 ],
               ),

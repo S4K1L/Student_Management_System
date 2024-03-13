@@ -8,7 +8,7 @@ import '../../animated_route_page.dart';
 import '../../components/custom_buttons.dart';
 import '../../constants.dart';
 import '../Attendance_Screen/pages/forgetpass.dart';
-import '../Faculty_login_screen/admin_login_screen.dart';
+import '../Faculty_login_screen/Faculty_login_screen.dart';
 import 'home_screen/home_screen.dart';
 
 late bool _passwordVisible;

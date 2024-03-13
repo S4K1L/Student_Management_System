@@ -15,7 +15,15 @@ Future<void> main() async {
   if (kIsWeb) {
     try {
       await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
+        options: const FirebaseOptions(
+          apiKey: 'AIzaSyD35UINHWvE6YBTZIzoLQsTkmnBZSwycFs',
+          appId: '1:820789529612:web:aa11630688f05f34813229',
+          messagingSenderId: '820789529612',
+          projectId: 'student-management-syste-ce0e9',
+          authDomain: 'student-management-syste-ce0e9.firebaseapp.com',
+          storageBucket: 'student-management-syste-ce0e9.appspot.com',
+          measurementId: 'G-EB0PMGD91T',
+        ),
       );
       print('Web Firebase initialized successfully');
     } catch (e) {
@@ -24,7 +32,13 @@ Future<void> main() async {
   }
   try {
     await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
+      options: const FirebaseOptions(
+        apiKey: 'AIzaSyC7gbA9BeVYehHcECICuCx60OhtyqEknMA',
+        appId: '1:820789529612:android:c63de5bc8afe398e813229',
+        messagingSenderId: '820789529612',
+        projectId: 'student-management-syste-ce0e9',
+        storageBucket: 'student-management-syste-ce0e9.appspot.com',
+      ),
     );
     print('Android Firebase initialized successfully');
   } catch (e) {

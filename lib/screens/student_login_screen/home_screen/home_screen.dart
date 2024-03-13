@@ -59,166 +59,154 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
         }
       },
       child: Scaffold(
-        body: SafeArea(
-          child: Column(
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height / 3,
-                padding: const EdgeInsets.all(kDefaultPadding),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            StudentName(),
-                            kHalfSizeBox,
-                            StudentClass(),
-                            kHalfSizeBox,
-                            StudentYear(),
-                          ],
-                        ),
-                        kHalfSizeBox,
-                        ProfileImagePicker(
-                          onPress: () {
-                            Navigator.of(context).push(UniquePageRoute(builder: (_) => MyProfileScreen()));
-                          },
-                        ),
-                      ],
-                    ),
-                    sizeBox,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        StudentDataCard(
-                          title: 'Attendance',
-                          onPress: () {
-                            // Go to Attendance Screen
-                            Navigator.of(context).push(UniquePageRoute(
-                              builder: (_) => StudentAttendanceReportPage(currentUser: user),
-                            ));
-                          },
-                        ),
-                        StudentDataCard(
-                          title: 'Fees Due',
-                          onPress: () {
-                            // Go to fees screen
-                            Navigator.of(context).push(UniquePageRoute(builder: (_) => FeeScreen()));
-                          },
-                        ),
-                        StudentDataCard(
-                          title: 'Credit',
-                          onPress: () {
-                            // Go to fees screen
-                            Navigator.of(context).push(UniquePageRoute(builder: (_) => CreditScreen()));
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  color: Colors.transparent,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      color: kOtherColor,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(kDefaultPadding * 3),
-                        topRight: Radius.circular(kDefaultPadding * 3),
+        body: Column(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height / 2,
+              padding: const EdgeInsets.all(kDefaultPadding),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ProfileImagePicker(
+                    onPress: () {
+                      Navigator.of(context).push(UniquePageRoute(builder: (_) => MyProfileScreen()));
+                    },
+                  ),
+                  kHalfSizeBox,
+                  StudentName(),
+                  kHalfSizeBox,
+                  StudentClass(),
+                  kHalfSizeBox,
+                  StudentYear(),
+                  sizeBox,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      StudentDataCard(
+                        title: 'Attendance',
+                        onPress: () {
+                          // Go to Attendance Screen
+                          Navigator.of(context).push(UniquePageRoute(
+                            builder: (_) => StudentAttendanceReportPage(currentUser: user),
+                          ));
+                        },
                       ),
+                      StudentDataCard(
+                        title: 'Fees Due',
+                        onPress: () {
+                          // Go to fees screen
+                          Navigator.of(context).push(UniquePageRoute(builder: (_) => FeeScreen()));
+                        },
+                      ),
+                      StudentDataCard(
+                        title: 'Credit',
+                        onPress: () {
+                          // Go to fees screen
+                          Navigator.of(context).push(UniquePageRoute(builder: (_) => CreditScreen()));
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Container(
+                color: Colors.transparent,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: kOtherColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(kDefaultPadding * 3),
+                      topRight: Radius.circular(kDefaultPadding * 3),
                     ),
-                    child: ListView(
-                      physics: const BouncingScrollPhysics(),
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            HomeCard(
-                              onPress: () {
-                                Navigator.of(context).push(UniquePageRoute(builder: (_) => WallTab()));
-                              },
-                              icon: 'assets/icons/quiz.svg',
-                              title: 'Notice',
-                            ),
-                            HomeCard(
-                              onPress: () {
-                                Navigator.of(context).push(UniquePageRoute(builder: (_) => JoinClass()));
-                              },
-                              icon: 'assets/icons/assignment.svg',
-                              title: 'Join Courses',
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            HomeCard(
-                              onPress: () {
-                                Navigator.of(context).push(UniquePageRoute(builder: (_) => RegisteredCourses()));
-                              },
-                              icon: 'assets/icons/result.svg',
-                              title: 'Registered\nCourses',
-                            ),
-                            HomeCard(
-                              onPress: () {
-                                Navigator.of(context).push(UniquePageRoute(builder: (_) => StudentClassesTab()));
-                              },
-                              icon: 'assets/icons/timetable.svg',
-                              title: 'Courses Work',
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            HomeCard(
-                              onPress: () {
-                                Navigator.of(context).push(UniquePageRoute(builder: (_) => ExamScreen()));
-                              },
-                              icon: 'assets/icons/resume.svg',
-                              title: 'Exam\nNotice',
-                            ),
-                            HomeCard(
-                              onPress: () {
-                                Navigator.of(context).push(UniquePageRoute(builder: (_) => FacultyListPage()));
-                              },
-                              icon: 'assets/icons/event.svg',
-                              title: 'Faculty\nRecommendation',
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            HomeCard(
-                              onPress: () {
-                                AuthService().logout();
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const LoginScreen(),
-                                  ),
-                                );
-                              },
-                              icon: 'assets/icons/logout.svg',
-                              title: 'Logout',
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                  ),
+                  child: ListView(
+                    physics: const BouncingScrollPhysics(),
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          HomeCard(
+                            onPress: () {
+                              Navigator.of(context).push(UniquePageRoute(builder: (_) => WallTab()));
+                            },
+                            icon: 'assets/icons/quiz.svg',
+                            title: 'Notice',
+                          ),
+                          HomeCard(
+                            onPress: () {
+                              Navigator.of(context).push(UniquePageRoute(builder: (_) => JoinClass()));
+                            },
+                            icon: 'assets/icons/assignment.svg',
+                            title: 'Join Courses',
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          HomeCard(
+                            onPress: () {
+                              Navigator.of(context).push(UniquePageRoute(builder: (_) => RegisteredCourses()));
+                            },
+                            icon: 'assets/icons/result.svg',
+                            title: 'Registered\nCourses',
+                          ),
+                          HomeCard(
+                            onPress: () {
+                              Navigator.of(context).push(UniquePageRoute(builder: (_) => StudentClassesTab()));
+                            },
+                            icon: 'assets/icons/timetable.svg',
+                            title: 'Courses Work',
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          HomeCard(
+                            onPress: () {
+                              Navigator.of(context).push(UniquePageRoute(builder: (_) => ExamScreen()));
+                            },
+                            icon: 'assets/icons/resume.svg',
+                            title: 'Exam\nNotice',
+                          ),
+                          HomeCard(
+                            onPress: () {
+                              Navigator.of(context).push(UniquePageRoute(builder: (_) => FacultyListPage()));
+                            },
+                            icon: 'assets/icons/event.svg',
+                            title: 'Faculty\nRecommendation',
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          HomeCard(
+                            onPress: () {
+                              AuthService().logout();
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const LoginScreen(),
+                                ),
+                              );
+                            },
+                            icon: 'assets/icons/logout.svg',
+                            title: 'Logout',
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

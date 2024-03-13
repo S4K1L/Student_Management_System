@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -30,7 +31,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
     var account = getAccount(user!.uid);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Profile'),
+        title: const Text('My Profile',style: TextStyle(
+          color: kTextWhiteColor,
+        ),),
         actions: [
           InkWell(
             onTap: () {
@@ -52,108 +55,103 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
           ),
         ],
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            color: kOtherColor,
-            child: Column(
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: 150,
-                  decoration: const BoxDecoration(
-                    color: kPrimaryColor,
-                    borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(kDefaultPadding * 2),
-                      bottomLeft: Radius.circular(kDefaultPadding * 2),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ProfileImagePicker(onPress: (){}),
-                      kWidthSizeBox,
-                      //Student Details
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('${account?.fullName}',
-                              style: Theme.of(context).textTheme.titleMedium),
-                          Text('ID: ${account?.id}',
-                              style:
-                                  Theme.of(context).textTheme.subtitle2!.copyWith(
-                                        fontSize: 14.0,
-                                      )),
-                        ],
-                      ),
-                    ],
+      backgroundColor: kTextWhiteColor,
+      body: SingleChildScrollView(
+        child: Container(
+          color: kOtherColor,
+          child: Column(
+            children: [
+              Container(
+                width: double.infinity,
+                height: 180,
+                decoration: const BoxDecoration(
+                  color: kPrimaryColor,
+                  borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(kDefaultPadding * 2),
+                    bottomLeft: Radius.circular(kDefaultPadding * 2),
                   ),
                 ),
-                sizeBox,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ProfileImagePicker(onPress: (){}),
+                    kWidthSizeBox,
+                    Flexible(
+                      child: Text('${account?.fullName}',
+                          style: Theme.of(context).textTheme.titleMedium),
+                    ),
+                    Text('ID: ${account?.id}',
+                        style:
+                            Theme.of(context).textTheme.titleSmall!.copyWith(
+                                  fontSize: 14.0,
+                            ),
+                    ),
+                    kHalfSizeBox,
+                  ],
+                ),
+              ),
+              sizeBox,
+               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ProfileDetailRow(
+                    title: 'Registration Number',
+                    value: '${account?.reg}',
+                  ),
+                  ProfileDetailRow(
+                    title: 'ID Number',
+                    value: '${account?.id}',
+                  ),
+                ],
+              ),
+               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ProfileDetailRow(
+                    title: 'Semester Running',
+                    value: '${account?.semester}',
+                  ),
+                  ProfileDetailRow(
+                    title: 'Joining Year',
+                    value: '${account?.join}',
+                  ),
+                ],
+              ),
+               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ProfileDetailRow(
+                    title: 'Department',
+                    value: '${account?.dept}',
+                  ),
+                  ProfileDetailRow(
+                    title: 'Date of Birth',
+                    value: '${account?.dob}',
+                  ),
+                ],
+              ),
+              sizeBox,
+              //Parents Details
+               ProfileDataColumn(
+                title: 'Email',
+                value: '${account?.email}',
+              ),
+               ProfileDataColumn(
+                title: 'Father Name',
+                value: '${account?.fName}',
+              ),
+               ProfileDataColumn(
+                title: 'Mother Name',
+                value: '${account?.mName}',
+              ),
 
-                //University Details
-                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ProfileDetailRow(
-                      title: 'Registration Number',
-                      value: '${account?.reg}',
-                    ),
-                    ProfileDetailRow(
-                      title: 'ID Number',
-                      value: '${account?.id}',
-                    ),
-                  ],
-                ),
-                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ProfileDetailRow(
-                      title: 'Semester Running',
-                      value: '12th',
-                    ),
-                    ProfileDetailRow(
-                      title: 'Joining Year',
-                      value: '${account?.join}',
-                    ),
-                  ],
-                ),
-                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ProfileDetailRow(
-                      title: 'Department',
-                      value: '${account?.dept}',
-                    ),
-                    ProfileDetailRow(
-                      title: 'Date of Birth',
-                      value: '${account?.dob}',
-                    ),
-                  ],
-                ),
-                sizeBox,
-                //Parents Details
-                 ProfileDataColumn(
-                  title: 'Email',
-                  value: '${account?.email}',
-                ),
-                 ProfileDataColumn(
-                  title: 'Father Name',
-                  value: '${account?.fName}',
-                ),
-                 ProfileDataColumn(
-                  title: 'Mother Name',
-                  value: '${account?.mName}',
-                ),
-
-                //Email and Phone Number
-                 ProfileDataColumn(
-                  title: 'Mobile Number',
-                  value: '${account?.phone}',
-                ),
-              ],
-            ),
+              //Email and Phone Number
+               ProfileDataColumn(
+                title: 'Mobile Number',
+                value: '${account?.phone}',
+              ),
+            ],
           ),
         ),
       ),
@@ -208,7 +206,7 @@ class ProfileDetailRow extends StatelessWidget {
               ),
             ],
           ),
-          const Icon(Icons.lock_outline, size: 20.0),
+          const Icon(Icons.lock_outline, size: 16.0),
         ],
       ),
     );

@@ -4,6 +4,7 @@ import 'package:student_management_system/Announchment/screens/student_classroom
 import 'package:student_management_system/Announchment/screens/student_classroom/wall_tab.dart';
 import 'package:student_management_system/Announchment/widgets/attachment_composer.dart';
 import 'package:student_management_system/Announchment/widgets/submit_composer.dart';
+import 'package:student_management_system/constants.dart';
 
 class StudentAnnouncementPage extends StatefulWidget {
   final Announcement announcement;
@@ -21,32 +22,35 @@ class _StudentAnnouncementPageState extends State<StudentAnnouncementPage> {
       appBar: AppBar(
         leading: TextButton(
           onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>   StudentClassesTab(),
-              ),
-            );
+            Navigator.pop(context);
           },
           child: const Icon(Icons.arrow_back_ios,color: Colors.white,),
         ),
-        backgroundColor: widget.announcement.classroom.uiColor,
+        backgroundColor: kPrimaryColor,
         elevation: 0.5,
         title: const Text(
-          "Join Class",
+          "Assigned Work",
           style: TextStyle(
               color: Colors.white, fontFamily: "Roboto", fontSize: 22),
         ),
       ),
+      backgroundColor: kTextWhiteColor,
       body: ListView(
         children: [
           Container(
-            padding: EdgeInsets.only(top: 50, left: 15, bottom: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(kDefaultPadding),
+                topRight: Radius.circular(kDefaultPadding),
+              ),
+              color: kOtherColor,
+            ),
+            padding: EdgeInsets.only(left: 15, bottom: 10),
             child: Text(
               widget.announcement.title,
               style: TextStyle(
                 fontSize: 25,
-                color: widget.announcement.classroom.uiColor,
+                color: kPrimaryColor,
                 letterSpacing: 1,
               ),
             ),
@@ -67,7 +71,7 @@ class _StudentAnnouncementPageState extends State<StudentAnnouncementPage> {
             margin: EdgeInsets.only(left: 15),
             width: MediaQuery.of(context).size.width - 30,
             height: 2,
-            color: widget.announcement.classroom.uiColor,
+            color: kPrimaryColor,
           ),
           Container(
             margin: EdgeInsets.all(10),
@@ -86,7 +90,7 @@ class _StudentAnnouncementPageState extends State<StudentAnnouncementPage> {
                       children: [
                         Text(
                           widget.announcement.user.fullName ?? '',
-                          style: TextStyle(fontSize: 25,color: Colors.blue),
+                          style: TextStyle(fontSize: 25,color: kPrimaryColor),
                         ),
                         Text(
                           "Last updated " + widget.announcement.dateTime,
@@ -99,20 +103,20 @@ class _StudentAnnouncementPageState extends State<StudentAnnouncementPage> {
                 SizedBox(height: 15),
                 Text(
                   widget.announcement.description,
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: 20,color: kPrimaryColor),
                 )
               ],
             ),
           ),
           SizedBox(height: 10),
           if (widget.announcement.attachments.isNotEmpty)
-            Padding(
-              padding: EdgeInsets.only(top: 15, left: 15),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
               child: Text(
                 "Attachments:",
                 style: TextStyle(
                   fontSize: 15,
-                  color: Colors.white,
+                  color: kPrimaryColor,
                   letterSpacing: 1,
                   fontWeight: FontWeight.bold,
                 ),

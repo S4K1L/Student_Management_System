@@ -1,7 +1,7 @@
 //static String routeName = 'Wrapper';
 
 import 'package:flutter/cupertino.dart';
-import 'package:student_management_system/screens/Faculty_login_screen/admin_login_screen.dart';
+import 'package:student_management_system/screens/Faculty_login_screen/Faculty_login_screen.dart';
 import 'package:student_management_system/screens/admin_Screen/add_faculty/add_faculty.dart';
 import 'package:student_management_system/screens/admin_Screen/add_student/add_student.dart';
 import 'package:student_management_system/screens/splash_screen/splash_screen.dart';
