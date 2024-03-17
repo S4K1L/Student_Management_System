@@ -26,9 +26,9 @@ class _StudentAttendanceReportPageState extends State<StudentAttendanceReportPag
 
   Future<void> fetchAttendanceData() async {
     try {
-      List<DocumentSnapshot>? courses = await _accountsDB.getFacultyCourses(widget.currentUser.uid);
-      if (courses != null) {
-        for (DocumentSnapshot course in courses) {
+      List<DocumentSnapshot>? studentCourses = await _accountsDB.getStudentCourses(widget.currentUser.uid); // Fetch student courses
+      if (studentCourses != null) {
+        for (DocumentSnapshot course in studentCourses) {
           String courseId = course.id;
           List<DocumentSnapshot>? attendance = await _accountsDB.getAttendanceByStudentAndCourse(courseId, widget.currentUser.uid);
           if (attendance != null) {
@@ -56,7 +56,7 @@ class _StudentAttendanceReportPageState extends State<StudentAttendanceReportPag
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Attendance Report',style: TextStyle(color: kTextWhiteColor),),
+        title: Text('My Attendance Report', style: TextStyle(color: kTextWhiteColor)),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -75,9 +75,9 @@ class _StudentAttendanceReportPageState extends State<StudentAttendanceReportPag
             ),
             color: kOtherColor,
           ),
-              child: ListView.builder(
-                      itemCount: attendanceData.length,
-                      itemBuilder: (context, index) {
+          child: ListView.builder(
+            itemCount: attendanceData.length,
+            itemBuilder: (context, index) {
               String courseName = attendanceData[index]['courseName'];
               DateTime date = attendanceData[index]['date'];
               bool present = attendanceData[index]['present'];
@@ -91,11 +91,14 @@ class _StudentAttendanceReportPageState extends State<StudentAttendanceReportPag
                   ],
                 ),
               );
-                      },
-                    ),
-            )
+            },
+          ),
+        )
             : Center(
-          child: Text('No attendance found',style: TextStyle(fontSize: 16,color: kPrimaryColor),),
+          child: Text(
+            'No attendance found',
+            style: TextStyle(fontSize: 16, color: kPrimaryColor),
+          ),
         ),
       ),
     );

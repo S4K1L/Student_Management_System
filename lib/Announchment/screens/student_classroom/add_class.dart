@@ -11,10 +11,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../animated_route_page.dart';
+import '../../data/accounts.dart';
 import '../loading.dart';
 
 class JoinClass extends StatefulWidget {
-  const JoinClass({super.key});
+  const JoinClass({Key? key}) : super(key: key);
 
   @override
   _JoinClassState createState() => _JoinClassState();
@@ -31,15 +32,19 @@ class _JoinClassState extends State<JoinClass> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CustomUser?>(context);
-
-    return loading ? Loading() : Scaffold(
+    return loading
+        ? Loading()
+        : Scaffold(
       // appbar part
       appBar: AppBar(
         leading: TextButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          child: const Icon(Icons.arrow_back_ios,color: Colors.white,),
+          child: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
         ),
         elevation: 0.5,
         title: const Text(
@@ -59,7 +64,8 @@ class _JoinClassState extends State<JoinClass> {
           color: kOtherColor,
         ),
         child: ListView(
-          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+          padding: const EdgeInsets.symmetric(
+              vertical: 20.0, horizontal: 50.0),
           children: [
             Form(
               key: _formKey,
@@ -69,13 +75,16 @@ class _JoinClassState extends State<JoinClass> {
                   TextFormField(
                     decoration: InputDecoration(
                       labelText: "Class Code",
-                      labelStyle: TextStyle(color: kTextWhiteColor,fontSize: 16),
+                      labelStyle:
+                      TextStyle(color: kTextWhiteColor, fontSize: 16),
                       border: OutlineInputBorder(),
                       filled: true,
                       fillColor: kPrimaryColor,
-                      contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 10.0),
                       hintText: "Enter class Code",
-                      hintStyle: TextStyle(color: kTextWhiteColor,fontSize: 20),
+                      hintStyle:
+                      TextStyle(color: kTextWhiteColor, fontSize: 20),
                     ),
                     validator: (val) =>
                     val!.isEmpty ? 'Enter a class Code' : null,
@@ -92,56 +101,58 @@ class _JoinClassState extends State<JoinClass> {
                       if (_formKey.currentState!.validate()) {
                         await ClassesDB(user: user)
                             .updateStudentClasses(className);
+                        await joinCourse(className, user!);
 
-                        // Store student UID and name in Firebase
-                        final currentUser = FirebaseAuth.instance.currentUser;
-                        if(currentUser != null) {
-                          FirebaseFirestore.instance.collection('students').doc(currentUser.uid).set({
-                            'uid': currentUser.uid,
-                            'fullName': currentUser.displayName ?? '',
-                          });
-                        }
-
-                        for (int i = 0; i < announcementList.length; i++) {
+                        for (int i = 0;
+                        i < announcementList.length;
+                        i++) {
                           if (announcementList[i].classroom.className ==
                               className &&
-                              announcementList[i].type == "Assignment") {
-                            await SubmissionDB().addSubmissions(user!.uid,
-                                className, announcementList[i].title);
+                              announcementList[i].type ==
+                                  "Assignment") {
+                            await SubmissionDB().addSubmissions(
+                                user.uid,
+                                className,
+                                announcementList[i].title);
                           }
                         }
+
                         setState(() => loading = true);
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Row(
-                            children: [
-                              Icon(
-                                Icons.notifications_active_outlined,
-                                color: Colors.white,
-                              ),
-                              SizedBox(width: 10),
-                              Expanded(
-                                child: Text(
-                                  "Successfully Added",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Row(
+                              children: [
+                                Icon(
+                                  Icons.notifications_active_outlined,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: Text(
+                                    "Successfully Added",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
+                            backgroundColor: Colors.green,
+                            behavior: SnackBarBehavior.floating,
+                            duration: Duration(
+                                seconds: 5), // Adjust the duration as needed
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            elevation: 6,
+                            margin: EdgeInsets.all(20),
                           ),
-                          backgroundColor: Colors.green,
-                          behavior: SnackBarBehavior.floating,
-                          duration: Duration(seconds: 5), // Adjust the duration as needed
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          elevation: 6,
-                          margin: EdgeInsets.all(20),
-                        ));
+                        );
                         await updateAllData();
                         loading = false;
-                        Navigator.of(context).push(UniquePageRoute(builder: (_) => StudentHomeScreen()));
+                        Navigator.of(context).push(UniquePageRoute(
+                            builder: (_) => StudentHomeScreen()));
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -162,5 +173,40 @@ class _JoinClassState extends State<JoinClass> {
         ),
       ),
     );
+  }
+
+  Future<void> joinCourse(String className, CustomUser user) async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      try {
+        var account = getAccount(user.uid); // Fetching user account
+        await FirebaseFirestore.instance
+            .collection('courses')
+            .doc(className)
+            .collection('students')
+            .doc(currentUser.uid)
+            .set({
+          'uid': currentUser.uid,
+          'fullName': account?.fullName ?? '', // Use fullName from account
+          'email': user.email ?? '',
+          'id': account?.id ?? '',
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Successfully joined $className'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      } catch (error) {
+        print('Error joining course: $error');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content:
+            Text('Failed to join $className. Please try again.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 }

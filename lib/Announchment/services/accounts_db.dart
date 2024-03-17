@@ -137,4 +137,18 @@ class AccountsDB {
       return null;
     }
   }
+
+  Future<List<DocumentSnapshot>?> getStudentCourses(String studentId) async {
+    try {
+      QuerySnapshot querySnapshot = await _firestore
+          .collection('student_courses')
+          .where('studentId', isEqualTo: studentId)
+          .get();
+      return querySnapshot.docs;
+    } catch (e) {
+      print('Error fetching student courses: $e');
+      return null;
+    }
+  }
+
 }

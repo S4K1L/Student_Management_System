@@ -63,7 +63,7 @@ class _SelectDepartmentBatchCoursesPageState
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const SelectCoursesPage(),
+                    builder: (context) => const AttendanceReport(),
                   ),
                 );
               },

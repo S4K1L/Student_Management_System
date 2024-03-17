@@ -11,7 +11,7 @@ import '../../../animated_route_page.dart';
 import '../../../components/profile_image_picker.dart';
 import '../../../constants.dart';
 import '../../Attendance_Page/select_courses.dart';
-import '../../Attendance_Screen/make_Attendance.dart';
+import '../../Attendance_Screen/Select_courses.dart';
 import 'Faculty_Profile.dart';
 import '../Faculty_login_screen.dart';
 import 'widgets/admin_data.dart';
@@ -113,7 +113,7 @@ class _FacultyHomeScreenState extends State<FacultyHomeScreen> {
               _buildRow(
                 HomeCard(
                   onPress: () {
-                    Navigator.of(context).push(UniquePageRoute(builder: (_) => SelectCoursesPage()));
+                    Navigator.of(context).push(UniquePageRoute(builder: (_) => AttendanceReport()));
                   },
                   icon: 'assets/icons/quiz.svg',
                   title: 'Attendance\nReport',
@@ -129,7 +129,7 @@ class _FacultyHomeScreenState extends State<FacultyHomeScreen> {
               _buildRow(
                 HomeCard(
                   onPress: () {
-                    Navigator.of(context).push(UniquePageRoute(builder: (_) =>  MakeAttendance()));
+                    Navigator.of(context).push(UniquePageRoute(builder: (_) =>  AttendancePage()));
                   },
                   icon: 'assets/icons/holiday.svg',
                   title: 'Attendance',

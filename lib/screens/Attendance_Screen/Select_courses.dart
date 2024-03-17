@@ -1,16 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:student_management_system/constants.dart';
-import 'attendance_report.dart';
+import 'Take_Attendance.dart';
 
-class AttendanceReport extends StatefulWidget {
-  const AttendanceReport({Key? key}) : super(key: key);
+class AttendancePage extends StatefulWidget {
+  const AttendancePage({Key? key}) : super(key: key);
 
   @override
-  _AttendanceReportState createState() => _AttendanceReportState();
+  _AttendancePageState createState() => _AttendancePageState();
 }
 
-class _AttendanceReportState extends State<AttendanceReport> {
+class _AttendancePageState extends State<AttendancePage> {
   String? _selectedCourse;
   List<String> _courses = [];
 
@@ -25,7 +25,7 @@ class _AttendanceReportState extends State<AttendanceReport> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Attendance Report',
+          'Attendance',
           style: TextStyle(color: kTextWhiteColor),
         ),
       ),
@@ -59,7 +59,7 @@ class _AttendanceReportState extends State<AttendanceReport> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => AttendanceReportPage(selectedCourse: _selectedCourse!,),
+                          builder: (context) => TakeAttendance(courseName: _selectedCourse!),
                         ),
                       );
                     }
