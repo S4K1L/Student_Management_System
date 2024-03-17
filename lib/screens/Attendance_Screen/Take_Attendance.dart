@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:student_management_system/constants.dart';
-import 'package:student_management_system/Announchment/services/accounts_db.dart';
+
+import '../../Repository_and_Authentication/services/accounts_db.dart';
 
 class TakeAttendance extends StatefulWidget {
   final String courseName; // Add courseName parameter

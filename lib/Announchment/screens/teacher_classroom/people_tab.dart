@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:student_management_system/Announchment/screens/teacher_classroom/student_work_page.dart';
 
-import '../../data/classrooms.dart';
-import '../../widgets/profile_tile.dart';
+import '../../../Repository_and_Authentication/data/classrooms.dart';
+import '../../../Repository_and_Authentication/widgets/profile_tile.dart';
 
 
 class PeopleTab extends StatefulWidget {

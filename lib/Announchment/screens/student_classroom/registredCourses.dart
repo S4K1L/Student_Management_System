@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:student_management_system/Announchment/data/accounts.dart';
-import 'package:student_management_system/Announchment/data/classrooms.dart';
-import 'package:student_management_system/Announchment/data/custom_user.dart';
-import 'package:student_management_system/Announchment/screens/student_classroom/class_room_page.dart';
 import 'package:student_management_system/constants.dart';
-
-import '../../../screens/student_login_screen/home_screen/home_screen.dart';
+import '../../../Repository_and_Authentication/data/accounts.dart';
+import '../../../Repository_and_Authentication/data/classrooms.dart';
+import '../../../Repository_and_Authentication/data/custom_user.dart';
+import '../../../screens/Student_Section/home_screen/home_screen.dart';
 
 class RegisteredCourses extends StatefulWidget {
   const RegisteredCourses({Key? key}) : super(key: key);

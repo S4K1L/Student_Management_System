@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../Repository_and_Authentication/data/custom_user.dart';
+import '../../Repository_and_Authentication/services/classes_db.dart';
 import '../../constants.dart';
-import '../data/custom_user.dart';
-import '../services/classes_db.dart';
+
 
 class AssignedCoursesPage extends StatelessWidget {
   const AssignedCoursesPage({Key? key}) : super(key: key);

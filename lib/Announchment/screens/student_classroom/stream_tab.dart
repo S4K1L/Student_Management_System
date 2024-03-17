@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../widgets/comment_composer_student.dart';
+import '../../../Repository_and_Authentication/widgets/comment_composer_student.dart';
 
 class StreamTab extends StatefulWidget {
   String className;

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:student_management_system/Announchment/data/announcements.dart';
 import 'package:student_management_system/constants.dart';
-
-import '../../../screens/student_login_screen/home_screen/home_screen.dart';
-import '../teacher_classroom/TeacherAnnouncement_page.dart';
+import '../../../Repository_and_Authentication/data/announcements.dart';
 
 class WallTab extends StatefulWidget {
   const WallTab({Key? key});

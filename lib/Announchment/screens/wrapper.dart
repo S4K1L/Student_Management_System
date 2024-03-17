@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:student_management_system/Announchment/data/accounts.dart';
-import 'package:student_management_system/Announchment/data/custom_user.dart';
-import 'package:student_management_system/screens/student_login_screen/home_screen/home_screen.dart';
-import 'package:student_management_system/screens/student_login_screen/login_screen.dart';
-
-import '../../screens/Faculty_login_screen/Faculty_home_screen/Faculty_home_screen.dart';
+import '../../Repository_and_Authentication/data/accounts.dart';
+import '../../Repository_and_Authentication/data/custom_user.dart';
+import '../../screens/Faculty_Section/Faculty_home_screen/Faculty_home_screen.dart';
+import '../../screens/Student_Section/home_screen/home_screen.dart';
+import '../../screens/Student_Section/login_screen.dart';
 
 class Wrapper extends StatefulWidget {
   const Wrapper({Key ? key}) : super(key: key);

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:student_management_system/Announchment/data/accounts.dart';
-import 'package:student_management_system/Announchment/data/classrooms.dart';
-import 'package:student_management_system/Announchment/screens/student_classroom/class_room_page.dart';
-import 'package:student_management_system/Announchment/screens/teacher_classroom/class_room_page.dart';
-import '../../data/custom_user.dart';
+import '../../../Repository_and_Authentication/data/accounts.dart';
+import '../../../Repository_and_Authentication/data/classrooms.dart';
+import '../../../Repository_and_Authentication/data/custom_user.dart';
+
 
 class AssignedCoursesTab extends StatefulWidget {
   final Account? account; // Define account as a parameter

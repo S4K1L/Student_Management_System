@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:student_management_system/Announchment/services/accounts_db.dart';
+
+import '../../../Repository_and_Authentication/services/accounts_db.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({Key? key}) : super(key: key);

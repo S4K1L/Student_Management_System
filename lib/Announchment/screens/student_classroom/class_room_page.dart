@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:student_management_system/Announchment/data/classrooms.dart';
-import 'package:student_management_system/Announchment/data/custom_user.dart';
 import 'package:student_management_system/Announchment/screens/student_classroom/people_tab.dart';
+import '../../../Repository_and_Authentication/data/classrooms.dart';
+import '../../../Repository_and_Authentication/data/custom_user.dart';
 import '../../../constants.dart';
 import '../student_classroom/classwork_tab.dart';
 import '../student_classroom/stream_tab.dart';

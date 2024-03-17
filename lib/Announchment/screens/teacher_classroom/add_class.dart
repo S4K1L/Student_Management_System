@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:student_management_system/constants.dart';
-import '../../../screens/Faculty_login_screen/Faculty_home_screen/Faculty_home_screen.dart';
-import '../../data/custom_user.dart';
-import '../../services/classes_db.dart';
-import '../../services/updatealldata.dart';
-
+import '../../../Repository_and_Authentication/data/custom_user.dart';
+import '../../../Repository_and_Authentication/services/classes_db.dart';
+import '../../../Repository_and_Authentication/services/updatealldata.dart';
+import '../../../screens/Faculty_Section/Faculty_home_screen/Faculty_home_screen.dart';
 class AddClass extends StatefulWidget {
   const AddClass({Key? key}) : super(key: key);
 

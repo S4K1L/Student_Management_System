@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:student_management_system/Announchment/data/accounts.dart';
-import 'package:student_management_system/Announchment/data/custom_user.dart';
 import 'package:student_management_system/Announchment/screens/student_classroom/add_class.dart';
 import 'package:student_management_system/Announchment/screens/student_classroom/StudentClasses_tab.dart';
 import 'package:student_management_system/Announchment/screens/student_classroom/timeline_tab.dart';
 import 'package:student_management_system/Announchment/screens/student_classroom/wall_tab.dart';
-import 'package:student_management_system/Announchment/screens/teacher_classroom/add_class.dart';
-import 'package:student_management_system/Announchment/services/auth.dart';
+
+import '../../Repository_and_Authentication/data/accounts.dart';
+import '../../Repository_and_Authentication/data/custom_user.dart';
+import '../../Repository_and_Authentication/services/auth.dart';
+
 
 class StudentHomePage extends StatefulWidget {
   const StudentHomePage({super.key});

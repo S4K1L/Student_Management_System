@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:student_management_system/Announchment/data/classrooms.dart';
-import 'package:student_management_system/Announchment/widgets/profile_tile.dart';
 import 'package:student_management_system/constants.dart';
+
+import '../../../Repository_and_Authentication/data/classrooms.dart';
+import '../../../Repository_and_Authentication/widgets/profile_tile.dart';
 
 class PeopleTab extends StatefulWidget {
   ClassRooms classRoom;
   Color uiColor;
 
-  PeopleTab({required this.classRoom, required this.uiColor});
+  PeopleTab({super.key, required this.classRoom, required this.uiColor});
 
   @override
-  _PeopleTabState createState() => _PeopleTabState();
+  State<PeopleTab> createState() => _PeopleTabState();
 }
 
 class _PeopleTabState extends State<PeopleTab> {

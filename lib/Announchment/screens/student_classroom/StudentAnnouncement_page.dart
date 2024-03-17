@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:student_management_system/Announchment/data/announcements.dart';
-import 'package:student_management_system/Announchment/screens/student_classroom/StudentClasses_tab.dart';
-import 'package:student_management_system/Announchment/screens/student_classroom/wall_tab.dart';
-import 'package:student_management_system/Announchment/widgets/attachment_composer.dart';
-import 'package:student_management_system/Announchment/widgets/submit_composer.dart';
 import 'package:student_management_system/constants.dart';
+import '../../../Repository_and_Authentication/data/announcements.dart';
+import '../../../Repository_and_Authentication/widgets/attachment_composer.dart';
+import '../../../Repository_and_Authentication/widgets/submit_composer.dart';
 
 class StudentAnnouncementPage extends StatefulWidget {
   final Announcement announcement;

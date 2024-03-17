@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:student_management_system/Announchment/screens/teacher_classroom/submission_page.dart';
-import 'package:student_management_system/Announchment/widgets/attachment_composer.dart';
-
-import '../../data/announcements.dart';
-import '../../data/custom_user.dart';
-import '../../data/submissions.dart';
-import '../../services/announcements_db.dart';
-import '../../services/attachments_db.dart';
-import '../../services/submissions_db.dart';
-import '../../services/updatealldata.dart';
-import '../../widgets/profile_tile.dart';
+import '../../../Repository_and_Authentication/data/announcements.dart';
+import '../../../Repository_and_Authentication/data/custom_user.dart';
+import '../../../Repository_and_Authentication/data/submissions.dart';
+import '../../../Repository_and_Authentication/services/announcements_db.dart';
+import '../../../Repository_and_Authentication/services/attachments_db.dart';
+import '../../../Repository_and_Authentication/services/submissions_db.dart';
+import '../../../Repository_and_Authentication/services/updatealldata.dart';
+import '../../../Repository_and_Authentication/widgets/attachment_composer.dart';
+import '../../../Repository_and_Authentication/widgets/profile_tile.dart';
 import 'announcement_crud/edit_announcement.dart';
 
 // ignore: must_be_immutable

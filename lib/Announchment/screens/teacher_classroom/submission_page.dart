@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../data/submissions.dart';
-import '../../widgets/attachment_composer.dart';
+import '../../../Repository_and_Authentication/data/submissions.dart';
+import '../../../Repository_and_Authentication/widgets/attachment_composer.dart';
+
 
 class SubmissionPage extends StatefulWidget {
   Submission submission;

@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:student_management_system/Announchment/data/announcements.dart';
-import 'package:student_management_system/Announchment/data/custom_user.dart';
-import 'package:student_management_system/Announchment/services/classes_db.dart';
-import 'package:student_management_system/Announchment/services/submissions_db.dart';
-import 'package:student_management_system/Announchment/services/updatealldata.dart';
 import 'package:student_management_system/constants.dart';
-import 'package:student_management_system/screens/student_login_screen/home_screen/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import '../../../Repository_and_Authentication/data/accounts.dart';
+import '../../../Repository_and_Authentication/data/announcements.dart';
+import '../../../Repository_and_Authentication/data/custom_user.dart';
+import '../../../Repository_and_Authentication/services/classes_db.dart';
+import '../../../Repository_and_Authentication/services/submissions_db.dart';
+import '../../../Repository_and_Authentication/services/updatealldata.dart';
 import '../../../animated_route_page.dart';
-import '../../data/accounts.dart';
+import '../../../screens/Student_Section/home_screen/home_screen.dart';
 import '../loading.dart';
 
 class JoinClass extends StatefulWidget {

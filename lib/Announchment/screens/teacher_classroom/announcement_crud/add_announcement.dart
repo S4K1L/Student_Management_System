@@ -8,16 +8,16 @@ import 'package:provider/provider.dart';
 import 'package:path/path.dart';
 import 'package:mime/mime.dart';
 import 'package:student_management_system/constants.dart';
-import '../../../data/accounts.dart';
-import '../../../data/attachments.dart';
-import '../../../data/classrooms.dart';
-import '../../../data/custom_user.dart';
-import '../../../services/announcements_db.dart';
-import '../../../services/attachments_db.dart';
-import '../../../services/submissions_db.dart';
-import '../../../services/updatealldata.dart';
-import '../../../utils/datetime.dart';
-import '../../../widgets/attachment_editor_composer.dart';
+import '../../../../Repository_and_Authentication/data/accounts.dart';
+import '../../../../Repository_and_Authentication/data/attachments.dart';
+import '../../../../Repository_and_Authentication/data/classrooms.dart';
+import '../../../../Repository_and_Authentication/data/custom_user.dart';
+import '../../../../Repository_and_Authentication/services/announcements_db.dart';
+import '../../../../Repository_and_Authentication/services/attachments_db.dart';
+import '../../../../Repository_and_Authentication/services/submissions_db.dart';
+import '../../../../Repository_and_Authentication/services/updatealldata.dart';
+import '../../../../Repository_and_Authentication/utils/datetime.dart';
+import '../../../../Repository_and_Authentication/widgets/attachment_editor_composer.dart';
 
 class AddAnnouncement extends StatefulWidget {
   ClassRooms classRoom;

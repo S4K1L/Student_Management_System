@@ -3,10 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:student_management_system/firebase_options.dart';
 import 'package:student_management_system/routes.dart';
-import 'Announchment/data/custom_user.dart';
-import 'Announchment/services/auth.dart';
+import 'Repository_and_Authentication/data/custom_user.dart';
+import 'Repository_and_Authentication/services/auth.dart';
 import 'constants.dart';
 import 'screens/splash_screen/splash_screen.dart';
 

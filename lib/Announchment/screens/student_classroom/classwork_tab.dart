@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:student_management_system/Announchment/data/announcements.dart';
-import 'package:student_management_system/Announchment/data/custom_user.dart';
 import 'package:student_management_system/Announchment/screens/student_classroom/StudentAnnouncement_page.dart';
 import 'package:student_management_system/constants.dart';
 
+import '../../../Repository_and_Authentication/data/announcements.dart';
+import '../../../Repository_and_Authentication/data/custom_user.dart';
 import '../teacher_classroom/TeacherAnnouncement_page.dart';
 
 class ClassWork extends StatefulWidget {

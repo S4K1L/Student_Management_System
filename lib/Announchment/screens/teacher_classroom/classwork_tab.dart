@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_management_system/Announchment/screens/teacher_classroom/TeacherAnnouncement_page.dart';
-
-import '../../data/announcements.dart';
-import '../student_classroom/StudentAnnouncement_page.dart';
+import '../../../Repository_and_Authentication/data/announcements.dart';
 
 class ClassWorkTab extends StatefulWidget {
   final String className;

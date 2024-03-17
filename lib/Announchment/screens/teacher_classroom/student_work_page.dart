@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:student_management_system/Announchment/screens/teacher_classroom/submission_page.dart';
-import 'package:student_management_system/Announchment/widgets/profile_tile.dart';
-import '../../data/accounts.dart';
-import '../../data/classrooms.dart';
-import '../../data/submissions.dart';
+import '../../../Repository_and_Authentication/data/accounts.dart';
+import '../../../Repository_and_Authentication/data/classrooms.dart';
+import '../../../Repository_and_Authentication/data/submissions.dart';
+import '../../../Repository_and_Authentication/widgets/profile_tile.dart';
+
 
 
 class StudentWorkPage extends StatefulWidget {

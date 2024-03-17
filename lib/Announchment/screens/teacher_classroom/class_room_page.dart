@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_management_system/constants.dart';
-import '../../data/classrooms.dart';
+import '../../../Repository_and_Authentication/data/classrooms.dart';
 import '../student_classroom/people_tab.dart';
 import '../teacher_classroom/classwork_tab.dart';
 import '../teacher_classroom/stream_tab.dart';
