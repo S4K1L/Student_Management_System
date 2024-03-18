@@ -151,32 +151,20 @@ class _FacultyHomeScreenState extends State<FacultyHomeScreen> {
                   icon: 'assets/icons/resume.svg',
                   title: 'Assigned\nCourses',
                 ),
-                HomeCard(
-                  onPress: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>   EditAnnouncement(announcement: account),
-                      ),
-                    );
-                  },
-                  icon: 'assets/icons/logout1.svg',
-                  title: 'Edit\nAnnouncement',
-                ),
+                  HomeCard(
+                    onPress: () {
+                      AuthService().logout();
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>  const AdminLoginScreen(),
+                        ),
+                      );
+                    },
+                    icon: 'assets/icons/logout.svg',
+                    title: 'Logout',
+                  ),
               ),
-              HomeCard(
-                onPress: () {
-                  AuthService().logout();
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>  const AdminLoginScreen(),
-                    ),
-                  );
-                },
-                icon: 'assets/icons/logout.svg',
-                title: 'Logout',
-              )
             ],
           ),
         ),
