@@ -11,7 +11,6 @@ import 'screens/splash_screen/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if (kIsWeb) {
     try {
       await Firebase.initializeApp(
         options: const FirebaseOptions(
@@ -24,25 +23,10 @@ Future<void> main() async {
           measurementId: 'G-EB0PMGD91T',
         ),
       );
-      print('Web Firebase initialized successfully');
+      print('Firebase initialized successfully');
     } catch (e) {
       print('Error initializing Firebase: $e');
     }
-  }
-  try {
-    await Firebase.initializeApp(
-      options: const FirebaseOptions(
-        apiKey: 'AIzaSyC7gbA9BeVYehHcECICuCx60OhtyqEknMA',
-        appId: '1:820789529612:android:c63de5bc8afe398e813229',
-        messagingSenderId: '820789529612',
-        projectId: 'student-management-syste-ce0e9',
-        storageBucket: 'student-management-syste-ce0e9.appspot.com',
-      ),
-    );
-    print('Android Firebase initialized successfully');
-  } catch (e) {
-    print('Error initializing Firebase: $e');
-  }
   runApp(const MyApp());
 }
 
