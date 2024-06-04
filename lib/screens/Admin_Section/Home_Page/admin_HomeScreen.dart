@@ -37,24 +37,24 @@ class _AdminPageState extends State<AdminPage> {
     final user = Provider.of<CustomUser?>(context);
     var account = getAccount(user!.uid);
     return WillPopScope(
-        onWillPop: () async {
-          if (!_isLoggedOut) {
-            // If user is not logged out, log them out and prevent default back button behavior
-            setState(() {
-              _isLoggedOut = true;
-            });
-            AuthService().logout();
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>  const AdminLoginScreen(),
-              ),
-            );
-            return false; // Prevent default back button behavior
-          } else {
-            return true;
-          }
-        },
+      onWillPop: () async {
+        if (!_isLoggedOut) {
+          // If user is not logged out, log them out and prevent default back button behavior
+          setState(() {
+            _isLoggedOut = true;
+          });
+          AuthService().logout();
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>  const AdminLoginScreen(),
+            ),
+          );
+          return false; // Prevent default back button behavior
+        } else {
+          return true;
+        }
+      },
       child: Scaffold(
         body: Column(
           children: [
@@ -137,6 +137,16 @@ class _AdminPageState extends State<AdminPage> {
                             icon: 'assets/icons/event.svg',
                             title: 'Total\nreport',
                           ),
+                          HomeCard(
+                            onPress: () {},
+                            icon: 'assets/icons/result.svg',
+                            title: 'Prediction',
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
                           HomeCard(
                             onPress: () {
                               AuthService().logout();

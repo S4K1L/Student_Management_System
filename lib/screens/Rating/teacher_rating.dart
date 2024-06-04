@@ -68,8 +68,8 @@ class _FacultyListPageState extends State<FacultyListPage> {
                   child: Align(
                     alignment: Alignment.topRight,
                     child: Container(
-                      alignment: Alignment.topRight,
-                      width: 50,
+                        alignment: Alignment.topRight,
+                        width: 50,
                         height: 25,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
